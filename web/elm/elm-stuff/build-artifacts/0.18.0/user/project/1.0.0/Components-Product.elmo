@@ -1,0 +1,59 @@
+var _user$project$Components_Product$toggle_include = F2(
+	function (products, partNo) {
+		var updateProduct = function (product) {
+			return _elm_lang$core$Native_Utils.eq(product.partNo, partNo) ? _elm_lang$core$Native_Utils.update(
+				product,
+				{include: !product.include}) : product;
+		};
+		return A2(_elm_lang$core$List$map, updateProduct, products);
+	});
+var _user$project$Components_Product$update = F2(
+	function (msg, products) {
+		var _p0 = msg;
+		return {
+			ctor: '_Tuple2',
+			_0: A2(_user$project$Components_Product$toggle_include, products, _p0._0),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _user$project$Components_Product$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {manufacturer: a, partNo: b, description: c, diameter: d, price: e, include: f};
+	});
+var _user$project$Components_Product$Filter = function (a) {
+	return {ctor: 'Filter', _0: a};
+};
+var _user$project$Components_Product$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('row'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Components_Product$Filter(model.partNo)),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(model.manufacturer),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(model.description),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
