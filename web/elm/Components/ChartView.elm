@@ -33,14 +33,11 @@ update msg model =
 
 -- VIEW
 
-view doel = div [] []
-{-
 view : Model -> Html Msg
 view model = 
-  div [id = "main" ]
+  div [id "main" ]
       [
-        vbar model
-        |> C.Title "Dropper Post Eval"
+        vBar model
+        |> C.title "Dropper Post Eval"
         |> toHtml
       ]
--}

@@ -55,7 +55,7 @@ view model =
     ]
   , div [ class "row" ] 
     [ Html.map MeasureListMsg ( MeasureList.view model.measureListModel )
-    , div [ class "col-lg-2" ] []
+    , div [ class "col-lg-2" ] [Html.map ChartMsg (ChartView.view model.results ) ]
     , div [ class "col-lg-5", id "products"] (productListView model.productList)
     ] 
   ]
