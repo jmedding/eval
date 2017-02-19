@@ -10,7 +10,7 @@ type alias Model =
   { label : String
   , attribute : String
   , weight : Int
-  , score : Float
+  , range : Float  -- used to determine the importance of relevant prices
   }
 
 initialModel : Model

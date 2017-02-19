@@ -32,8 +32,8 @@ init =
 
 initialProducts : List Product.Model
 initialProducts = 
-  [ Product.Model "Rockshox" "001" "Reverb 125mm / 30.9mm" "30.9" 450 True
-  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" 475 True
+  [ Product.Model "Rockshox" "001" "Reverb 125mm / 30.9mm" "30.9" 450 2 True
+  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" 475 3 True
   ]
 
 -- MESSAGES

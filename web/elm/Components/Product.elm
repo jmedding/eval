@@ -15,6 +15,7 @@ type alias Model =
   , description : String
   , diameter : String
   , price : Float
+  , reliability : Float
   , include : Bool
   }
 
