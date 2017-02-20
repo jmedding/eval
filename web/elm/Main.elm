@@ -4,7 +4,6 @@ import Html exposing (Html, program, div)
 import Html.Attributes as H exposing (class, id)
 
 import Components.Measure as Measure
-import Components.MeasureList as MeasureList
 import Components.Product as Product
 import Components.ChartView as ChartView
 
