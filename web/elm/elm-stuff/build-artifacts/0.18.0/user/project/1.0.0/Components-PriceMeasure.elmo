@@ -16,7 +16,7 @@ var _user$project$Components_PriceMeasure$update = F2(
 	});
 var _user$project$Components_PriceMeasure$Model = F4(
 	function (a, b, c, d) {
-		return {label: a, attribute: b, weight: c, score: d};
+		return {label: a, attribute: b, weight: c, range: d};
 	});
 var _user$project$Components_PriceMeasure$initialModel = A4(_user$project$Components_PriceMeasure$Model, 'Price', 'price', 5, 0.0);
 var _user$project$Components_PriceMeasure$Changed = function (a) {

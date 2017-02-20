@@ -16,9 +16,9 @@ var _user$project$Components_Product$update = F2(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Components_Product$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {manufacturer: a, partNo: b, description: c, diameter: d, price: e, include: f};
+var _user$project$Components_Product$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {manufacturer: a, partNo: b, description: c, diameter: d, price: e, reliability: f, include: g};
 	});
 var _user$project$Components_Product$Filter = function (a) {
 	return {ctor: 'Filter', _0: a};

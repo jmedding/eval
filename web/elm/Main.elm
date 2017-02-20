@@ -11,17 +11,15 @@ import Components.ChartView as ChartView
 -- MODEL
 
 type alias AppModel =
-  { measureModel : Measure.Model
-  , measureListModel : MeasureList.MeasureListModel
-  , productList : List Product.Model
+  { productList : List Product.Model
+  , measureList : List Measure.Model
   , results : ChartView.Model
   }
 
 initialModel : AppModel
 initialModel =
-  { measureModel =  Measure.initialModel
-  , measureListModel = MeasureList.initialModel
-  , productList = initialProducts
+  { productList = initialProducts
+  , measureList = Measure.initialMeasures
   , results = ChartView.initialModel
   }
 
@@ -36,11 +34,11 @@ initialProducts =
   , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" 475 3 True
   ]
 
+
 -- MESSAGES
 
 type Msg =
   MeasureMsg Measure.Msg 
-  | MeasureListMsg MeasureList.Msg
   | ProductMsg Product.Msg
   | ChartMsg ChartView.Msg
 
@@ -54,8 +52,8 @@ view model =
       [ Html.map ChartMsg ( ChartView.view model.results ) ]
     ]
   , div [ class "row" ] 
-    [ Html.map MeasureListMsg ( MeasureList.view model.measureListModel )
-    , div [ class "col-lg-2" ] [Html.map ChartMsg (ChartView.view model.results ) ]
+    [ div [ class "col-lg-5", id "measures" ] (measureListView model.measureList)
+    , div [ class "col-lg-2" ] []
     , div [ class "col-lg-5", id "products"] (productListView model.productList)
     ] 
   ]
@@ -65,6 +63,10 @@ productListView products =
   List.map(\ product -> Html.map ProductMsg (Product.view product)) products 
 
 
+measureListView : List Measure.Model -> List (Html Msg)
+measureListView measures =
+  List.map(\ measure -> Html.map MeasureMsg ( Measure.view measure)) measures
+
 -- UPDATE
 
 update : Msg -> AppModel -> ( AppModel, Cmd Msg)
@@ -72,19 +74,12 @@ update message model =
   case message of
     MeasureMsg subMsg ->
       let 
-        ( updatedMeasureModel, measureCmd ) =
-          Measure.update subMsg model.measureModel
+        ( updatedMeasureList, measureCmd ) =
+          Measure.update subMsg model.measureList
 
       in
-        ( { model | measureModel = updatedMeasureModel }, Cmd.map MeasureMsg measureCmd )
+        ( { model | measureList = updatedMeasureList }, Cmd.map MeasureMsg measureCmd )
     
-    MeasureListMsg subMsg ->
-      let
-        ( updatedMeasureListModel, measureListCmd ) = 
-          MeasureList.update subMsg model.measureListModel
-
-      in
-        ( { model | measureListModel = updatedMeasureListModel }, Cmd.map MeasureListMsg measureListCmd )
 
     ProductMsg subMsg ->
       let 

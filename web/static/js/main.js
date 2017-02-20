@@ -12529,30 +12529,137 @@ var _user$project$Components_ChartView$initialModel = {
 };
 var _user$project$Components_ChartView$Dummy = {ctor: 'Dummy'};
 
-var _user$project$Components_Measure$update = F2(
-	function (_p0, model) {
-		var _p1 = _p0;
+var _user$project$Components_Product$toggle_include = F2(
+	function (products, partNo) {
+		var updateProduct = function (product) {
+			return _elm_lang$core$Native_Utils.eq(product.partNo, partNo) ? _elm_lang$core$Native_Utils.update(
+				product,
+				{include: !product.include}) : product;
+		};
+		return A2(_elm_lang$core$List$map, updateProduct, products);
+	});
+var _user$project$Components_Product$update = F2(
+	function (msg, products) {
+		var _p0 = msg;
 		return {
 			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					weight: A2(
-						_elm_lang$core$Result$withDefault,
-						5,
-						_elm_lang$core$String$toInt(_p1._0))
-				}),
+			_0: A2(_user$project$Components_Product$toggle_include, products, _p0._0),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
+var _user$project$Components_Product$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {manufacturer: a, partNo: b, description: c, diameter: d, price: e, reliability: f, include: g};
+	});
+var _user$project$Components_Product$Filter = function (a) {
+	return {ctor: 'Filter', _0: a};
+};
+var _user$project$Components_Product$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('row'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Components_Product$Filter(model.partNo)),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(model.manufacturer),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(model.description),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+
+var _user$project$Components_Measure$updateWeight = F3(
+	function (measures, name, val) {
+		var updateMeasure = function (measure) {
+			return _elm_lang$core$Native_Utils.eq(measure.attribute, name) ? _elm_lang$core$Native_Utils.update(
+				measure,
+				{weight: val}) : measure;
+		};
+		return A2(_elm_lang$core$List$map, updateMeasure, measures);
+	});
+var _user$project$Components_Measure$update = F2(
+	function (_p0, measures) {
+		var _p1 = _p0;
+		var updatedMeasures = A3(
+			_user$project$Components_Measure$updateWeight,
+			measures,
+			_p1._0,
+			A2(
+				_elm_lang$core$Result$withDefault,
+				5,
+				_elm_lang$core$String$toInt(_p1._1)));
+		return {ctor: '_Tuple2', _0: updatedMeasures, _1: _elm_lang$core$Platform_Cmd$none};
+	});
+var _user$project$Components_Measure$primePrice = F3(
+	function (weight, products, product) {
+		var minRange = 100;
+		var prices = A2(
+			_elm_lang$core$List$map,
+			function (product) {
+				return product.price;
+			},
+			products);
+		var min = A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (next, min) {
+					return (_elm_lang$core$Native_Utils.cmp(next, min) < 0) ? next : min;
+				}),
+			999999,
+			prices);
+		var max = A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (next, max) {
+					return (_elm_lang$core$Native_Utils.cmp(next, max) > 0) ? next : max;
+				}),
+			-99999,
+			prices);
+		var range = (_elm_lang$core$Native_Utils.cmp(max - min, minRange) < 0) ? minRange : (max - minRange);
+		return (((max - product.price) / range) * 5) * _elm_lang$core$Basics$toFloat(weight);
+	});
+var _user$project$Components_Measure$primeReliability = F3(
+	function (weight, products, product) {
+		return _elm_lang$core$Basics$toFloat(weight) * product.reliability;
+	});
 var _user$project$Components_Measure$Model = F4(
 	function (a, b, c, d) {
-		return {label: a, attribute: b, weight: c, score: d};
+		return {label: a, attribute: b, weight: c, primeFunc: d};
 	});
-var _user$project$Components_Measure$initialModel = A4(_user$project$Components_Measure$Model, 'Price', 'price', 5, 0.0);
-var _user$project$Components_Measure$Changed = function (a) {
-	return {ctor: 'Changed', _0: a};
+var _user$project$Components_Measure$initialMeasures = {
+	ctor: '::',
+	_0: A4(_user$project$Components_Measure$Model, 'Reliability', 'reliability', 5, _user$project$Components_Measure$primeReliability),
+	_1: {
+		ctor: '::',
+		_0: A4(_user$project$Components_Measure$Model, 'Price', 'price', 5, _user$project$Components_Measure$primePrice),
+		_1: {ctor: '[]'}
+	}
 };
+var _user$project$Components_Measure$Changed = F2(
+	function (a, b) {
+		return {ctor: 'Changed', _0: a, _1: b};
+	});
 var _user$project$Components_Measure$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -12564,16 +12671,43 @@ var _user$project$Components_Measure$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$span,
+				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('col-sm-2'),
+					_0: _elm_lang$html$Html_Attributes$class('row'),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(model.label),
-					_1: {ctor: '[]'}
+					_0: A2(
+						_elm_lang$html$Html$span,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('col-sm-10'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(model.label),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('col-sm-2'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_elm_lang$core$Basics$toString(model.weight)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {
 				ctor: '::',
@@ -12581,59 +12715,55 @@ var _user$project$Components_Measure$view = function (model) {
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('col-sm-9'),
+						_0: _elm_lang$html$Html_Attributes$class('row'),
 						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$input,
+							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('range'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$min('0'),
-									_1: {
+								_0: _elm_lang$html$Html_Attributes$class('col-sm-12'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$max('10'),
+										_0: _elm_lang$html$Html_Attributes$type_('range'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$step('1'),
+											_0: _elm_lang$html$Html_Attributes$min('0'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(
-													_elm_lang$core$Basics$toString(model.weight)),
+												_0: _elm_lang$html$Html_Attributes$max('10'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Components_Measure$Changed),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Attributes$step('1'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(
+															_elm_lang$core$Basics$toString(model.weight)),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onInput(
+																_user$project$Components_Measure$Changed(model.attribute)),
+															_1: {ctor: '[]'}
+														}
+													}
 												}
 											}
 										}
-									}
-								}
-							},
-							{ctor: '[]'}),
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}),
 						_1: {ctor: '[]'}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$span,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('col-sm-1'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_elm_lang$core$Basics$toString(model.weight)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
+				_1: {ctor: '[]'}
 			}
 		});
 };
@@ -12656,7 +12786,7 @@ var _user$project$Components_PriceMeasure$update = F2(
 	});
 var _user$project$Components_PriceMeasure$Model = F4(
 	function (a, b, c, d) {
-		return {label: a, attribute: b, weight: c, score: d};
+		return {label: a, attribute: b, weight: c, range: d};
 	});
 var _user$project$Components_PriceMeasure$initialModel = A4(_user$project$Components_PriceMeasure$Model, 'Price', 'price', 5, 0.0);
 var _user$project$Components_PriceMeasure$Changed = function (a) {
@@ -12970,83 +13100,23 @@ var _user$project$Components_MeasureList$update = F2(
 		}
 	});
 
-var _user$project$Components_Product$toggle_include = F2(
-	function (products, partNo) {
-		var updateProduct = function (product) {
-			return _elm_lang$core$Native_Utils.eq(product.partNo, partNo) ? _elm_lang$core$Native_Utils.update(
-				product,
-				{include: !product.include}) : product;
-		};
-		return A2(_elm_lang$core$List$map, updateProduct, products);
-	});
-var _user$project$Components_Product$update = F2(
-	function (msg, products) {
-		var _p0 = msg;
-		return {
-			ctor: '_Tuple2',
-			_0: A2(_user$project$Components_Product$toggle_include, products, _p0._0),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	});
-var _user$project$Components_Product$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {manufacturer: a, partNo: b, description: c, diameter: d, price: e, include: f};
-	});
-var _user$project$Components_Product$Filter = function (a) {
-	return {ctor: 'Filter', _0: a};
-};
-var _user$project$Components_Product$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('row'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Components_Product$Filter(model.partNo)),
-						_1: {ctor: '[]'}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(model.manufacturer),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(model.description),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
-
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
 var _user$project$Main$initialProducts = {
 	ctor: '::',
-	_0: A6(_user$project$Components_Product$Model, 'Rockshox', '001', 'Reverb 125mm / 30.9mm', '30.9', 450, true),
+	_0: A7(_user$project$Components_Product$Model, 'Rockshox', '001', 'Reverb 125mm / 30.9mm', '30.9', 450, 2, true),
 	_1: {
 		ctor: '::',
-		_0: A6(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', 475, true),
+		_0: A7(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', 475, 3, true),
 		_1: {ctor: '[]'}
 	}
 };
-var _user$project$Main$initialModel = {measureModel: _user$project$Components_Measure$initialModel, measureListModel: _user$project$Components_MeasureList$initialModel, productList: _user$project$Main$initialProducts, results: _user$project$Components_ChartView$initialModel};
+var _user$project$Main$initialModel = {productList: _user$project$Main$initialProducts, measureList: _user$project$Components_Measure$initialMeasures, results: _user$project$Components_ChartView$initialModel};
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$Main$AppModel = F4(
-	function (a, b, c, d) {
-		return {measureModel: a, measureListModel: b, productList: c, results: d};
+var _user$project$Main$AppModel = F3(
+	function (a, b, c) {
+		return {productList: a, measureList: b, results: c};
 	});
 var _user$project$Main$ChartMsg = function (a) {
 	return {ctor: 'ChartMsg', _0: a};
@@ -13065,8 +13135,19 @@ var _user$project$Main$productListView = function (products) {
 		},
 		products);
 };
-var _user$project$Main$MeasureListMsg = function (a) {
-	return {ctor: 'MeasureListMsg', _0: a};
+var _user$project$Main$MeasureMsg = function (a) {
+	return {ctor: 'MeasureMsg', _0: a};
+};
+var _user$project$Main$measureListView = function (measures) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (measure) {
+			return A2(
+				_elm_lang$html$Html$map,
+				_user$project$Main$MeasureMsg,
+				_user$project$Components_Measure$view(measure));
+		},
+		measures);
 };
 var _user$project$Main$view = function (model) {
 	return A2(
@@ -13120,9 +13201,17 @@ var _user$project$Main$view = function (model) {
 					{
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$map,
-							_user$project$Main$MeasureListMsg,
-							_user$project$Components_MeasureList$view(model.measureListModel)),
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('col-lg-5'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$id('measures'),
+									_1: {ctor: '[]'}
+								}
+							},
+							_user$project$Main$measureListView(model.measureList)),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -13132,14 +13221,7 @@ var _user$project$Main$view = function (model) {
 									_0: _elm_lang$html$Html_Attributes$class('col-lg-2'),
 									_1: {ctor: '[]'}
 								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$map,
-										_user$project$Main$ChartMsg,
-										_user$project$Components_ChartView$view(model.results)),
-									_1: {ctor: '[]'}
-								}),
+								{ctor: '[]'}),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -13162,39 +13244,25 @@ var _user$project$Main$view = function (model) {
 			}
 		});
 };
-var _user$project$Main$MeasureMsg = function (a) {
-	return {ctor: 'MeasureMsg', _0: a};
-};
 var _user$project$Main$update = F2(
 	function (message, model) {
 		var _p0 = message;
 		switch (_p0.ctor) {
 			case 'MeasureMsg':
-				var _p1 = A2(_user$project$Components_Measure$update, _p0._0, model.measureModel);
-				var updatedMeasureModel = _p1._0;
+				var _p1 = A2(_user$project$Components_Measure$update, _p0._0, model.measureList);
+				var updatedMeasureList = _p1._0;
 				var measureCmd = _p1._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{measureModel: updatedMeasureModel}),
+						{measureList: updatedMeasureList}),
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureMsg, measureCmd)
 				};
-			case 'MeasureListMsg':
-				var _p2 = A2(_user$project$Components_MeasureList$update, _p0._0, model.measureListModel);
-				var updatedMeasureListModel = _p2._0;
-				var measureListCmd = _p2._1;
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{measureListModel: updatedMeasureListModel}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureListMsg, measureListCmd)
-				};
 			case 'ProductMsg':
-				var _p3 = A2(_user$project$Components_Product$update, _p0._0, model.productList);
-				var updatedProducts = _p3._0;
-				var productCmd = _p3._1;
+				var _p2 = A2(_user$project$Components_Product$update, _p0._0, model.productList);
+				var updatedProducts = _p2._0;
+				var productCmd = _p2._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -13203,9 +13271,9 @@ var _user$project$Main$update = F2(
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, productCmd)
 				};
 			default:
-				var _p4 = A2(_user$project$Components_ChartView$update, _p0._0, model.results);
-				var updatedChartModel = _p4._0;
-				var chartCmd = _p4._1;
+				var _p3 = A2(_user$project$Components_ChartView$update, _p0._0, model.results);
+				var updatedChartModel = _p3._0;
+				var chartCmd = _p3._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
