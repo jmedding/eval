@@ -6,7 +6,7 @@ var _user$project$Main$initialProducts = {
 	_0: A7(_user$project$Components_Product$Model, 'Rockshox', '001', 'Reverb 125mm / 30.9mm', '30.9', 450, 2, true),
 	_1: {
 		ctor: '::',
-		_0: A7(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', 475, 3, true),
+		_0: A7(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', 475, 5, true),
 		_1: {ctor: '[]'}
 	}
 };
@@ -150,11 +150,12 @@ var _user$project$Main$update = F2(
 				var _p1 = A2(_user$project$Components_Measure$update, _p0._0, model.measureList);
 				var updatedMeasureList = _p1._0;
 				var measureCmd = _p1._1;
+				var updatedResults = A2(_user$project$Components_Results$getResults, updatedMeasureList, model.productList);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{measureList: updatedMeasureList}),
+						{measureList: updatedMeasureList, results: updatedResults}),
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureMsg, measureCmd)
 				};
 			case 'ProductMsg':

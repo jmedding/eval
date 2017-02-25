@@ -6,6 +6,7 @@ import Html.Attributes as H exposing (class, id)
 import Components.Measure as Measure
 import Components.Product as Product
 import Components.ChartView as ChartView
+import Components.Results as Results
 
 -- MODEL
 
@@ -30,7 +31,7 @@ init =
 initialProducts : List Product.Model
 initialProducts = 
   [ Product.Model "Rockshox" "001" "Reverb 125mm / 30.9mm" "30.9" 450 2 True
-  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" 475 3 True
+  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" 475 5 True
   ]
 
 
@@ -74,10 +75,18 @@ update message model =
     MeasureMsg subMsg ->
       let 
         ( updatedMeasureList, measureCmd ) =
-          Measure.update subMsg model.measureList
+            Measure.update subMsg model.measureList
+  
+        updatedResults =
+            Results.getResults updatedMeasureList model.productList
 
       in
-        ( { model | measureList = updatedMeasureList }, Cmd.map MeasureMsg measureCmd )
+        ( { model | 
+              measureList = updatedMeasureList
+            , results = updatedResults
+          }
+          , Cmd.map MeasureMsg measureCmd
+        )
     
 
     ProductMsg subMsg ->

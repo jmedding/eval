@@ -36,7 +36,7 @@ primePrice weight products product =
     range = if max - min < minRange then minRange else max - minRange
 
   in
-    ( max - product.price ) / range * 5 * (toFloat weight)
+    ( max - product.price ) / range * 10 * (toFloat weight)
 
 
 

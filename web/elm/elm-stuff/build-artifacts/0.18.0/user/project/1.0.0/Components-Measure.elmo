@@ -46,7 +46,7 @@ var _user$project$Components_Measure$primePrice = F3(
 			-99999,
 			prices);
 		var range = (_elm_lang$core$Native_Utils.cmp(max - min, minRange) < 0) ? minRange : (max - minRange);
-		return (((max - product.price) / range) * 5) * _elm_lang$core$Basics$toFloat(weight);
+		return (((max - product.price) / range) * 10) * _elm_lang$core$Basics$toFloat(weight);
 	});
 var _user$project$Components_Measure$primeReliability = F3(
 	function (weight, products, product) {

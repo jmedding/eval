@@ -12637,7 +12637,7 @@ var _user$project$Components_Measure$primePrice = F3(
 			-99999,
 			prices);
 		var range = (_elm_lang$core$Native_Utils.cmp(max - min, minRange) < 0) ? minRange : (max - minRange);
-		return (((max - product.price) / range) * 5) * _elm_lang$core$Basics$toFloat(weight);
+		return (((max - product.price) / range) * 10) * _elm_lang$core$Basics$toFloat(weight);
 	});
 var _user$project$Components_Measure$primeReliability = F3(
 	function (weight, products, product) {
@@ -12768,6 +12768,35 @@ var _user$project$Components_Measure$view = function (model) {
 		});
 };
 
+var _user$project$Components_Results$applyMeasureFuncs = F2(
+	function (measureFuncs, product) {
+		var description = product.description;
+		var score = A3(
+			_elm_lang$core$List$foldr,
+			F2(
+				function (func, score) {
+					return score + func(product);
+				}),
+			0,
+			measureFuncs);
+		return {ctor: '_Tuple2', _0: score, _1: description};
+	});
+var _user$project$Components_Results$primeFunction = F2(
+	function (products, measure) {
+		return A2(measure.primeFunc, measure.weight, products);
+	});
+var _user$project$Components_Results$getResults = F2(
+	function (measures, products) {
+		var primedFunction = _user$project$Components_Results$primeFunction(products);
+		var measureFuncs = A2(_elm_lang$core$List$map, primedFunction, measures);
+		return A2(
+			_elm_lang$core$List$map,
+			function (product) {
+				return A2(_user$project$Components_Results$applyMeasureFuncs, measureFuncs, product);
+			},
+			products);
+	});
+
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
@@ -12776,7 +12805,7 @@ var _user$project$Main$initialProducts = {
 	_0: A7(_user$project$Components_Product$Model, 'Rockshox', '001', 'Reverb 125mm / 30.9mm', '30.9', 450, 2, true),
 	_1: {
 		ctor: '::',
-		_0: A7(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', 475, 3, true),
+		_0: A7(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', 475, 5, true),
 		_1: {ctor: '[]'}
 	}
 };
@@ -12920,11 +12949,12 @@ var _user$project$Main$update = F2(
 				var _p1 = A2(_user$project$Components_Measure$update, _p0._0, model.measureList);
 				var updatedMeasureList = _p1._0;
 				var measureCmd = _p1._1;
+				var updatedResults = A2(_user$project$Components_Results$getResults, updatedMeasureList, model.productList);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{measureList: updatedMeasureList}),
+						{measureList: updatedMeasureList, results: updatedResults}),
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureMsg, measureCmd)
 				};
 			case 'ProductMsg':

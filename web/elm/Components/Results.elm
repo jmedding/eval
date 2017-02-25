@@ -1,34 +1,35 @@
 module Components.Results exposing ( .. )
 
-import Components.MeasureList as Measures exposing ( .. )
-import Components.Product as Product exposing ( .. )
+import Components.Measure as Measure
+import Components.Product as Product
+import Components.ChartView as ChartView
 
 
--- MODEL
-
-type alias Model = 
-  { product : Product.description
-  , score : Float
-  }
-
-type Results 
-  = List Model
-
-type Score
-  = Float
-
-
-getResults : MeasureList.Model -> List Product.Model -> Results
+getResults : List Measure.Model -> List Product.Model -> ChartView.Model
 getResults measures products =
   let 
-    score = 0.0
+    primedFunction = primeFunction products
+    measureFuncs = List.map primedFunction measures 
   in
-    score = 
+    List.map (\ product -> applyMeasureFuncs measureFuncs product) products
       
 
+primeFunction : List Product.Model -> Measure.Model -> (Product.Model -> Float)
+primeFunction products measure =
+-- Measure.Model.primeFunc is 
+--    Int -> List Product.Model -> Product.Model -> Float
+-- Will return the partially applied function that is primed with
+-- a list of products. Can then be applied to each measure's primeFunc
+-- and then all the measures' primeFuncs can be applied to each  product
+  measure.primeFunc measure.weight products
 
-productResult : Product -> List Product -> Model
-productResult product products =
 
-  score
-  + measures.priceMeasureModel.weigh<t * product
+
+applyMeasureFuncs : List (Product.Model -> Float) -> Product.Model -> ( Float, String )
+applyMeasureFuncs measureFuncs product =
+  let
+    score = List.foldr (\func score-> score  + func product) 0 measureFuncs
+    description = product.description
+
+  in
+    ( score, description )
