@@ -12562,9 +12562,13 @@ var _user$project$Components_Product$view = function (model) {
 					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Components_Product$Filter(model.partNo)),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Attributes$checked(model.include),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Components_Product$Filter(model.partNo)),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{ctor: '[]'}),
@@ -12991,7 +12995,13 @@ var _user$project$Components_Results$getResults = F3(
 	function (excluders, measures, products) {
 		var primedFunction = _user$project$Components_Results$primeFunction(products);
 		var measureFuncs = A2(_elm_lang$core$List$map, primedFunction, measures);
-		var filteredProducts = A2(_user$project$Components_Results$excludeProducts, excluders, products);
+		var selectedProducts = A2(
+			_elm_lang$core$List$filter,
+			function (product) {
+				return product.include;
+			},
+			products);
+		var filteredProducts = A2(_user$project$Components_Results$excludeProducts, excluders, selectedProducts);
 		return A2(
 			_elm_lang$core$List$map,
 			function (product) {
@@ -13208,11 +13218,12 @@ var _user$project$Main$update = F2(
 				var _p2 = A2(_user$project$Components_Product$update, _p0._0, model.productList);
 				var updatedProducts = _p2._0;
 				var productCmd = _p2._1;
+				var updatedResults = A3(_user$project$Components_Results$getResults, model.excluderList, model.measureList, updatedProducts);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{productList: updatedProducts}),
+						{productList: updatedProducts, results: updatedResults}),
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, productCmd)
 				};
 			case 'ChartMsg':

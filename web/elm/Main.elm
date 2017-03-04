@@ -110,8 +110,15 @@ update message model =
       let
         ( updatedProducts, productCmd ) = 
           Product.update subMsg model.productList
+
+        updatedResults = Results.getResults model.excluderList model.measureList updatedProducts
+      
       in
-        ( { model | productList = updatedProducts }, Cmd.map ProductMsg productCmd )
+        ( { model | 
+              productList = updatedProducts
+            , results = updatedResults
+          }
+          , Cmd.map ProductMsg productCmd )
 
     ChartMsg subMsg ->
       let ( updatedChartModel, chartCmd ) = 

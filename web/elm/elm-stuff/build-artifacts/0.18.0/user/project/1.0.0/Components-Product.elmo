@@ -40,9 +40,13 @@ var _user$project$Components_Product$view = function (model) {
 					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Components_Product$Filter(model.partNo)),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Attributes$checked(model.include),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Components_Product$Filter(model.partNo)),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{ctor: '[]'}),

@@ -1,7 +1,7 @@
 module Components.Product exposing ( .. )
 
 import Html exposing ( Html, div, text, input )
-import Html.Attributes exposing ( type_, class )
+import Html.Attributes exposing ( type_, class, checked )
 import Html.Events exposing ( onClick )
 
 
@@ -36,7 +36,11 @@ view : Model -> Html Msg
 view model = 
   div 
     [ class "row" ]
-    [ input [ type_ "checkbox", onClick ( Filter model.partNo ) ] []
+    [ input [ 
+              type_ "checkbox"
+            , checked  model.include
+            , onClick ( Filter model.partNo ) 
+            ] []
     , text ( model.manufacturer ++ " " ++ model.description )
     ]
 
