@@ -7,21 +7,28 @@ import Components.Measure as Measure
 import Components.Product as Product
 import Components.ChartView as ChartView
 import Components.Results as Results
+import Components.Excluder as Excluder
 
 -- MODEL
 
 type alias AppModel =
   { productList : List Product.Model
   , measureList : List Measure.Model
+  , excluderList : List Excluder.Model
   , results : ChartView.Model
   }
 
 initialModel : AppModel
 initialModel =
-  { productList = initialProducts
-  , measureList = Measure.initialMeasures
-  , results = ChartView.initialModel
-  }
+  let 
+    excluders = ( Excluder.initialExcluders initialProducts )
+
+  in
+    { productList = initialProducts
+    , measureList = Measure.initialMeasures
+    , excluderList = excluders
+    , results = Results.getResults excluders Measure.initialMeasures initialProducts
+    }
 
 init : ( AppModel, Cmd Msg )
 init = 
@@ -30,8 +37,8 @@ init =
 
 initialProducts : List Product.Model
 initialProducts = 
-  [ Product.Model "Rockshox" "001" "Reverb 125mm / 30.9mm" "30.9" 450 2 True
-  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" 475 5 True
+  [ Product.Model "Rockshox" "001" "Reverb 125mm / 30.9mm" "30.9" "125 mm" 450 2 True
+  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" "150 mm" 475 5 True
   ]
 
 
@@ -41,6 +48,7 @@ type Msg =
   MeasureMsg Measure.Msg 
   | ProductMsg Product.Msg
   | ChartMsg ChartView.Msg
+  | ExcluderMsg Excluder.Msg
 
 -- VIEW
 
@@ -52,7 +60,10 @@ view model =
       [ Html.map ChartMsg ( ChartView.view model.results ) ]
     ]
   , div [ class "row" ] 
-    [ div [ class "col-lg-5", id "measures" ] (measureListView model.measureList)
+    [ div [ class "col-lg-5", id "measures" ]
+      [ div [ class "row" ] ( measureListView model.measureList )
+      , div [ class "row" ] ( excluderListView model.excluderList )
+      ] 
     , div [ class "col-lg-2" ] []
     , div [ class "col-lg-5", id "products"] (productListView model.productList)
     ] 
@@ -67,6 +78,12 @@ measureListView : List Measure.Model -> List (Html Msg)
 measureListView measures =
   List.map(\ measure -> Html.map MeasureMsg ( Measure.view measure)) measures
 
+
+excluderListView : List Excluder.Model -> List (Html Msg)
+excluderListView excluders =
+  List.map(\ excluder -> Html.map ExcluderMsg (Excluder.view excluder )) excluders
+
+
 -- UPDATE
 
 update : Msg -> AppModel -> ( AppModel, Cmd Msg)
@@ -78,7 +95,7 @@ update message model =
             Measure.update subMsg model.measureList
   
         updatedResults =
-            Results.getResults updatedMeasureList model.productList
+            Results.getResults model.excluderList updatedMeasureList model.productList
 
       in
         ( { model | 
@@ -90,7 +107,7 @@ update message model =
     
 
     ProductMsg subMsg ->
-      let 
+      let
         ( updatedProducts, productCmd ) = 
           Product.update subMsg model.productList
       in
@@ -103,6 +120,21 @@ update message model =
       in
         ( {model | results = updatedChartModel }, Cmd.map ChartMsg chartCmd )
 
+    ExcluderMsg subMsg ->
+      let 
+        ( updatedExcluders, excluderCmd ) =
+            Excluder.update subMsg model.excluderList
+
+        updatedResults =
+            Results.getResults updatedExcluders model.measureList model.productList  
+
+      in
+        ( { model | 
+              excluderList = updatedExcluders
+            , results = updatedResults
+          }
+          , Cmd.map ExcluderMsg excluderCmd
+        )
 
 --SUBSCRIPTIONS
 

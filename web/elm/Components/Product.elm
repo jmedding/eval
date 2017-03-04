@@ -14,6 +14,7 @@ type alias Model =
   , partNo : PartNo
   , description : String
   , diameter : String
+  , length : String
   , price : Float
   , reliability : Float
   , include : Bool
@@ -36,8 +37,7 @@ view model =
   div 
     [ class "row" ]
     [ input [ type_ "checkbox", onClick ( Filter model.partNo ) ] []
-    , text model.manufacturer 
-    , text model.description
+    , text ( model.manufacturer ++ " " ++ model.description )
     ]
 
 

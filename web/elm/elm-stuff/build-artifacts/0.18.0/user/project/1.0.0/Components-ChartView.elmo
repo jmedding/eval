@@ -20,13 +20,4 @@ var _user$project$Components_ChartView$update = F2(
 	function (msg, model) {
 		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 	});
-var _user$project$Components_ChartView$initialModel = {
-	ctor: '::',
-	_0: {ctor: '_Tuple2', _0: 45.3, _1: 'Fox Dropper 150mm / 30.9mm'},
-	_1: {
-		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 40.1, _1: 'Rockshox reverb 125mm / 30.9'},
-		_1: {ctor: '[]'}
-	}
-};
 var _user$project$Components_ChartView$Dummy = {ctor: 'Dummy'};

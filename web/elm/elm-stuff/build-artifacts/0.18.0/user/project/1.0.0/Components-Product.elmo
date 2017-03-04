@@ -16,9 +16,9 @@ var _user$project$Components_Product$update = F2(
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _user$project$Components_Product$Model = F7(
-	function (a, b, c, d, e, f, g) {
-		return {manufacturer: a, partNo: b, description: c, diameter: d, price: e, reliability: f, include: g};
+var _user$project$Components_Product$Model = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {manufacturer: a, partNo: b, description: c, diameter: d, length: e, price: f, reliability: g, include: h};
 	});
 var _user$project$Components_Product$Filter = function (a) {
 	return {ctor: 'Filter', _0: a};
@@ -48,12 +48,12 @@ var _user$project$Components_Product$view = function (model) {
 				{ctor: '[]'}),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html$text(model.manufacturer),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(model.description),
-					_1: {ctor: '[]'}
-				}
+				_0: _elm_lang$html$Html$text(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						model.manufacturer,
+						A2(_elm_lang$core$Basics_ops['++'], ' ', model.description))),
+				_1: {ctor: '[]'}
 			}
 		});
 };

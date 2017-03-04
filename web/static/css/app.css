@@ -8,3 +8,7 @@
 div.measure > span.weight {
 	float: right;
 }
+
+.excluderLabel {
+	font-weight: bold;
+}

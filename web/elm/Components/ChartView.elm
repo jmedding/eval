@@ -10,13 +10,6 @@ import Html.Attributes exposing ( id, class )
 type alias Model =
   List ( Float, String )
 
-initialModel: Model
-initialModel = 
-  [
-    ( 45.3, "Fox Dropper 150mm / 30.9mm" )
-  , ( 40.1, "Rockshox reverb 125mm / 30.9" )
-  ]
-
 
 -- MESSAGE
 

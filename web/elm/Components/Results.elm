@@ -1,17 +1,22 @@
 module Components.Results exposing ( .. )
 
+import Dict
 import Components.Measure as Measure
 import Components.Product as Product
 import Components.ChartView as ChartView
+import Components.Excluder as Excluder
 
+import Debug exposing ( log )
 
-getResults : List Measure.Model -> List Product.Model -> ChartView.Model
-getResults measures products =
+getResults : List Excluder.Model -> List Measure.Model -> List Product.Model -> ChartView.Model
+getResults excluders measures products =
   let 
+    filteredProducts = excludeProducts excluders products
+    -- log = Debug.log "filteredProducts" filteredProducts
     primedFunction = primeFunction products
     measureFuncs = List.map primedFunction measures 
   in
-    List.map (\ product -> applyMeasureFuncs measureFuncs product) products
+    List.map (\ product -> applyMeasureFuncs measureFuncs product) filteredProducts
       
 
 primeFunction : List Product.Model -> Measure.Model -> (Product.Model -> Float)
@@ -33,3 +38,20 @@ applyMeasureFuncs measureFuncs product =
 
   in
     ( score, description )
+
+
+excludeProducts : List Excluder.Model -> List Product.Model -> List Product.Model
+excludeProducts excluders products =
+  let
+    checkExcluder product (label, dict, getFunc) =
+      case ( Dict.get (getFunc product) dict ) of 
+        Just False -> False
+        Just True -> True
+        Nothing -> False  -- will produce weird results. Would prefer to crash  with good message
+
+
+    check product =
+      List.all  (checkExcluder product) excluders
+
+  in
+    List.filter check products
