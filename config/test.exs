@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :eval, Eval.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "eval_db_user",
+  password: "eval_pass",
   database: "eval_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

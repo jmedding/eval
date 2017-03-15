@@ -1,0 +1,48 @@
+<h2>Show dropper</h2>
+
+<ul>
+
+  <li>
+    <strong>Manufacturer:</strong>
+    <%= @dropper.manufacturer %>
+  </li>
+
+  <li>
+    <strong>Partno:</strong>
+    <%= @dropper.partNo %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @dropper.description %>
+  </li>
+
+  <li>
+    <strong>Diameter:</strong>
+    <%= @dropper.diameter %>
+  </li>
+
+  <li>
+    <strong>Length:</strong>
+    <%= @dropper.length %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @dropper.price %>
+  </li>
+
+  <li>
+    <strong>Reliability:</strong>
+    <%= @dropper.reliability %>
+  </li>
+
+  <li>
+    <strong>Weight:</strong>
+    <%= @dropper.weight %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: dropper_path(@conn, :edit, @dropper) %>
+<%= link "Back", to: dropper_path(@conn, :index) %>

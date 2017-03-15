@@ -1,0 +1,40 @@
+<h2>Listing droppers</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Manufacturer</th>
+      <th>Partno</th>
+      <th>Description</th>
+      <th>Diameter</th>
+      <th>Length</th>
+      <th>Price</th>
+      <th>Reliability</th>
+      <th>Weight</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for dropper <- @droppers do %>
+    <tr>
+      <td><%= dropper.manufacturer %></td>
+      <td><%= dropper.partNo %></td>
+      <td><%= dropper.description %></td>
+      <td><%= dropper.diameter %></td>
+      <td><%= dropper.length %></td>
+      <td><%= dropper.price %></td>
+      <td><%= dropper.reliability %></td>
+      <td><%= dropper.weight %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: dropper_path(@conn, :show, dropper), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: dropper_path(@conn, :edit, dropper), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: dropper_path(@conn, :delete, dropper), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New dropper", to: dropper_path(@conn, :new) %>

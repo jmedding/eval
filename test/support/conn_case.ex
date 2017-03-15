@@ -27,8 +27,14 @@ defmodule Eval.ConnCase do
 
       import Eval.Router.Helpers
 
+      # Added for testing with exMachina
+      import Eval.Factory
+
       # The default endpoint for testing
       @endpoint Eval.Endpoint
+
+      # Import the helpers in all your controller tests
+      import Todos.ConnCaseHelper
     end
   end
 

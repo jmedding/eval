@@ -1,0 +1,30 @@
+If we want to make user defined evaluators, ie a service that can be
+configured by a user, the problem will be to set up some of the elm code
+that needs to extract data from the records.
+
+For example, the current  Excluder models include a function that is used
+
+to get the value of the specific product parameter
+
+	( "Diameter", \product -> product.diameter)
+
+since there seems to be no way in Elm to fetch the paramer value based on
+a String (in our case, the label)
+
+One way to solve this would be to use Phoenix to generate an Elm module that
+return the proper function based on the label String
+
+	Module ProductGetter exposing (...) 
+
+	Import Components.Product as Product exposing ( Model )
+
+	getMeasureValForProduct : Model -> String -> Float
+	getMeasureValForProduct model label =
+		case label of
+			"Reliability" -> model.reliability
+			"Price"	-> model.price
+
+
+	It might be easier to just append this the Product module.
+
+	Filters (Bool values) could be another function

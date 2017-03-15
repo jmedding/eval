@@ -13,14 +13,18 @@ defmodule Eval.Router do
     plug :accepts, ["json"]
   end
 
+
   scope "/", Eval do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/droppers", DropperController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Eval do
-  #   pipe_through :api
-  # end
+  #Other scopes may use custom stacks.
+  scope "/api", Eval do
+    pipe_through :api
+
+    resources "/droppers", ApiController, only: [:index, :show]
+  end
 end
