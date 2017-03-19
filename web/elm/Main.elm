@@ -9,6 +9,9 @@ import Components.ChartView as ChartView
 import Components.Results as Results
 import Components.Excluder as Excluder
 
+import Debug exposing ( log )
+
+
 -- MODEL
 
 type alias AppModel =
@@ -32,7 +35,7 @@ initialModel =
 
 init : ( AppModel, Cmd Msg )
 init = 
-  ( initialModel, Cmd.none )
+  ( initialModel, Cmd.map ProductMsg Product.fetchProducts )
 
 
 initialProducts : List Product.Model
@@ -111,12 +114,15 @@ update message model =
         ( updatedProducts, productCmd ) = 
           Product.update subMsg model.productList
 
-        updatedResults = Results.getResults model.excluderList model.measureList updatedProducts
+        updatedExcluders = ( Excluder.initialExcluders updatedProducts )
+
+        updatedResults = (Results.getResults updatedExcluders model.measureList updatedProducts)
       
       in
         ( { model | 
               productList = updatedProducts
             , results = updatedResults
+            , excluderList = updatedExcluders
           }
           , Cmd.map ProductMsg productCmd )
 

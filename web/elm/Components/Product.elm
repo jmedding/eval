@@ -1,9 +1,13 @@
 module Components.Product exposing ( .. )
 
 import Html exposing ( Html, div, text, input )
+import Http
 import Html.Attributes exposing ( type_, class, checked )
 import Html.Events exposing ( onClick )
+import Json.Decode as Decode exposing ( Decoder, string, float )
+import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
 
+import Debug exposing ( log )
 
 -- MODEL
 
@@ -20,6 +24,30 @@ type alias Model =
   , include : Bool
   }
 
+fetchProducts : Cmd Msg
+fetchProducts =
+  let
+    url = "/api/droppers"
+    request = Http.get url ( decodeProductList )
+
+  in
+    Http.send Freshroducts request
+
+decodeProductList : Decoder (List Model)
+decodeProductList =
+  Decode.field "droppers" (Decode.list decodeProduct)
+
+decodeProduct : Decoder Model
+decodeProduct =
+  decode Model
+    |> required "manufacturer" string
+    |> required "partNo" string
+    |> required "description" string
+    |> required "diameter" string
+    |> required "length" string
+    |> required "price" float
+    |> required "reliability" float
+    |> hardcoded True
 
 
 -- MESSAGES
@@ -28,6 +56,8 @@ type alias Model =
 
 type Msg =
   Filter PartNo
+  | Fetch
+  | Freshroducts (Result Http.Error (List Model))
 
 
 -- VIEW
@@ -41,7 +71,7 @@ view model =
             , checked  model.include
             , onClick ( Filter model.partNo ) 
             ] []
-    , text ( model.manufacturer ++ " " ++ model.description )
+    , text ( model.manufacturer ++ " " ++ model.description  ++ " " ++ model.length ++ "mm/" ++ model.diameter)
     ]
 
 
@@ -54,6 +84,14 @@ update msg products =
       ( toggle_include products partNo
       , Cmd.none
       )
+
+    Fetch -> ( products, fetchProducts )
+
+    Freshroducts (Ok newProducts) -> 
+      log "New Products" (newProducts, Cmd.none)
+
+    Freshroducts ( Err _ ) ->
+      log "error" ( products, Cmd.none )
 
 
 toggle_include : List Model -> PartNo -> List Model
