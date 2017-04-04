@@ -1,0 +1,5 @@
+<h2>Listing instances</h2>
+
+<%= render "table.html", instances: @instances, conn: @conn, dropper_id: @dropper_id %>
+
+<%= link "New instance", to: dropper_instance_path(@conn, :new, @dropper_id) %>

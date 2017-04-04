@@ -2,14 +2,15 @@ defmodule Eval.Dropper do
   use Eval.Web, :model
 
   schema "droppers" do
-    field :manufacturer, :string
-    field :partNo, :string
-    field :description, :string
-    field :diameter, :string
-    field :length, :string
-    field :price, :float
+    field :brand, :string
+    field :model, :string
+    field :manUrl, :string
+    field :from, Ecto.Date
+    field :to, Ecto.Date
     field :reliability, :float
-    field :weight, :float
+
+    has_many :instances, Eval.Instance
+    has_many :reviews, Eval.Review
 
     timestamps()
   end
@@ -19,7 +20,7 @@ defmodule Eval.Dropper do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:manufacturer, :partNo, :description, :diameter, :length, :price, :reliability, :weight])
-    |> validate_required([:manufacturer, :partNo, :description, :diameter, :length, :price, :reliability, :weight])
+    |> cast(params, [:brand, :model, :manUrl, :from, :to, :reliability])
+    |> validate_required([:brand, :model, :manUrl, :from, :to, :reliability])
   end
 end

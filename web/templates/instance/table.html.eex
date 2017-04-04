@@ -1,0 +1,30 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Partno</th>
+      <th>Diameter (mm)</th>
+      <th>Length (mm)</th>
+      <th>Price ($)</th>
+      <th>Weight (g)</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for instance <- @instances do %>
+    <tr>
+      <td><%= instance.partNo %></td>
+      <td><%= instance.diameter %></td>
+      <td><%= instance.length %></td>
+      <td><%= instance.price %></td>
+      <td><%= instance.weight %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: dropper_instance_path(@conn, :show, @dropper_id, instance), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: dropper_instance_path(@conn, :edit, @dropper_id, instance), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: dropper_instance_path(@conn, :delete, @dropper_id, instance), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

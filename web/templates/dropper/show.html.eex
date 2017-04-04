@@ -1,35 +1,17 @@
-<h2>Show dropper</h2>
+<h2><%= "#{@dropper.brand} #{@dropper.model}" %></h2>
 
 <ul>
 
   <li>
-    <strong>Manufacturer:</strong>
-    <%= @dropper.manufacturer %>
+    <strong>Website:</strong>
+    <%= @dropper.manUrl %>
   </li>
 
   <li>
-    <strong>Partno:</strong>
-    <%= @dropper.partNo %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @dropper.description %>
-  </li>
-
-  <li>
-    <strong>Diameter:</strong>
-    <%= @dropper.diameter %>
-  </li>
-
-  <li>
-    <strong>Length:</strong>
-    <%= @dropper.length %>
-  </li>
-
-  <li>
-    <strong>Price:</strong>
-    <%= @dropper.price %>
+    <strong>Produced from:</strong>
+    <%= @dropper.from %>
+    -
+    <%= @dropper.to %>
   </li>
 
   <li>
@@ -37,12 +19,15 @@
     <%= @dropper.reliability %>
   </li>
 
-  <li>
-    <strong>Weight:</strong>
-    <%= @dropper.weight %>
-  </li>
-
 </ul>
 
-<%= link "Edit", to: dropper_path(@conn, :edit, @dropper) %>
+
+<%= render Eval.InstanceView, "table.html", instances: @dropper.instances, conn: @conn, dropper_id: @dropper.id  %>
+
+<%= link "New instance | ", to: dropper_instance_path(@conn, :new, @dropper) %>
+<%= link "New review | ", to: dropper_review_path(@conn, :new, @dropper) %>
+
+<%= link "Edit | ", to: dropper_path(@conn, :edit, @dropper) %>
 <%= link "Back", to: dropper_path(@conn, :index) %>
+
+<%= render Eval.ReviewView, "table.html", reviews: @dropper.reviews, conn: @conn, dropper_id: @dropper.id %>

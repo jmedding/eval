@@ -2,14 +2,15 @@ defmodule Eval.ApiController do
 	use Eval.Web, :controller
 
 	alias Eval.Dropper
+	alias Eval.Instance
 
 	def index(conn, _params) do
-		droppers = Repo.all(Dropper)
-		render conn, "index.json", droppers: droppers
+		instances = Repo.all(Instance) |> Repo.preload([:dropper])
+		render conn, "index.json", instances: instances
 	end
 
 	def show(conn, %{"id" => id}) do
-		dropper = Repo.get!(Dropper, id)
-		render(conn, "show.json", dropper: dropper)
+		instance = Repo.get!(Instance, id) |> Repo.preload([:dropper])
+		render(conn, "show.json", instance: instance)
 	end
 end

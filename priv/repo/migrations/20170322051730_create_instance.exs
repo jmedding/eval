@@ -1,19 +1,18 @@
-defmodule Eval.Repo.Migrations.CreateDropper do
+defmodule Eval.Repo.Migrations.CreateInstance do
   use Ecto.Migration
 
   def change do
-    create table(:droppers) do
-      add :manufacturer, :string
+    create table(:instances) do
       add :partNo, :string
-      add :description, :string
       add :diameter, :string
       add :length, :string
       add :price, :float
-      add :reliability, :float
       add :weight, :float
+      add :dropper_id, references(:droppers, on_delete: :nothing)
 
       timestamps()
     end
+    create index(:instances, [:dropper_id])
 
   end
 end

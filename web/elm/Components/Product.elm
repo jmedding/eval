@@ -14,9 +14,9 @@ import Debug exposing ( log )
 type alias PartNo = String
 
 type alias Model = 
-  { manufacturer : String 
+  { brand : String 
   , partNo : PartNo
-  , description : String
+  , model : String
   , diameter : String
   , length : String
   , price : Float
@@ -40,9 +40,9 @@ decodeProductList =
 decodeProduct : Decoder Model
 decodeProduct =
   decode Model
-    |> required "manufacturer" string
+    |> required "brand" string
     |> required "partNo" string
-    |> required "description" string
+    |> required "model" string
     |> required "diameter" string
     |> required "length" string
     |> required "price" float
@@ -71,7 +71,7 @@ view model =
             , checked  model.include
             , onClick ( Filter model.partNo ) 
             ] []
-    , text ( model.manufacturer ++ " " ++ model.description  ++ " " ++ model.length ++ "mm/" ++ model.diameter)
+    , text ( model.brand ++ " " ++ model.model  ++ " " ++ model.length ++ "mm/" ++ model.diameter)
     ]
 
 

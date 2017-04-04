@@ -6,51 +6,39 @@
   <% end %>
 
   <div class="form-group">
-    <%= label f, :manufacturer, class: "control-label" %>
-    <%= text_input f, :manufacturer, class: "form-control" %>
-    <%= error_tag f, :manufacturer %>
+    <%= label f, :brand, class: "control-label" %>
+    <%= text_input f, :brand, class: "form-control" %>
+    <%= error_tag f, :brand %>
   </div>
 
   <div class="form-group">
-    <%= label f, :partNo, class: "control-label" %>
-    <%= text_input f, :partNo, class: "form-control" %>
-    <%= error_tag f, :partNo %>
+    <%= label f, :model, class: "control-label" %>
+    <%= text_input f, :model, class: "form-control" %>
+    <%= error_tag f, :model %>
   </div>
 
   <div class="form-group">
-    <%= label f, :description, class: "control-label" %>
-    <%= text_input f, :description, class: "form-control" %>
-    <%= error_tag f, :description %>
+    <%= label f, :manUrl, class: "control-label" %>
+    <%= text_input f, :manUrl, class: "form-control" %>
+    <%= error_tag f, :manUrl %>
   </div>
 
   <div class="form-group">
-    <%= label f, :diameter, class: "control-label" %>
-    <%= text_input f, :diameter, class: "form-control" %>
-    <%= error_tag f, :diameter %>
+    <%= label f, :from, class: "control-label" %>
+    <%= date_select f, :from, class: "form-control" %>
+    <%= error_tag f, :from %>
   </div>
 
   <div class="form-group">
-    <%= label f, :length, class: "control-label" %>
-    <%= text_input f, :length, class: "form-control" %>
-    <%= error_tag f, :length %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :price, class: "control-label" %>
-    <%= number_input f, :price, step: "any", class: "form-control" %>
-    <%= error_tag f, :price %>
+    <%= label f, :to, class: "control-label" %>
+    <%= date_select f, :to, class: "form-control" %>
+    <%= error_tag f, :to %>
   </div>
 
   <div class="form-group">
     <%= label f, :reliability, class: "control-label" %>
     <%= number_input f, :reliability, step: "any", class: "form-control" %>
     <%= error_tag f, :reliability %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :weight, class: "control-label" %>
-    <%= number_input f, :weight, step: "any", class: "form-control" %>
-    <%= error_tag f, :weight %>
   </div>
 
   <div class="form-group">

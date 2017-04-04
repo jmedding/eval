@@ -1,0 +1,58 @@
+<h2>Show review</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @review.title %>
+  </li>
+
+  <li>
+    <strong>Publisher:</strong>
+    <%= @review.publisher %>
+  </li>
+
+  <li>
+    <strong>Review url:</strong>
+    <%= @review.review_url %>
+  </li>
+
+  <li>
+    <strong>Dropper:</strong>
+    <%= @review.dropper_id %>
+  </li>
+
+  <li>
+    <strong>Logo url:</strong>
+    <%= @review.logo_url %>
+  </li>
+
+  <li>
+    <strong>Reliability:</strong>
+    <%= @review.reliability %>
+  </li>
+
+  <li>
+    <strong>Publisher weight:</strong>
+    <%= @review.publisher_weight %>
+  </li>
+
+  <li>
+    <strong>Summary:</strong>
+    <%= @review.summary %>
+  </li>
+
+  <li>
+    <strong>Published on:</strong>
+    <%= @review.published_on %>
+  </li>
+
+  <li>
+    <strong>Rating:</strong>
+    <%= @review.rating %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: dropper_review_path(@conn, :edit, @dropper_id, @review) %>
+<%= link "Back", to: dropper_path(@conn, :show, @dropper_id) %>

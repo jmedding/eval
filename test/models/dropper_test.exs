@@ -3,7 +3,7 @@ defmodule Eval.DropperTest do
 
   alias Eval.Dropper
 
-  @valid_attrs %{description: "some content", diameter: "some content", length: "some content", manufacturer: "some content", partNo: "some content", price: "120.5", reliability: "120.5", weight: "120.5"}
+  @valid_attrs %{brand: "some content", from: %{day: 17, month: 4, year: 2010}, manUrl: "some content", model: "some content", reliability: "120.5", to: %{day: 17, month: 4, year: 2010}}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

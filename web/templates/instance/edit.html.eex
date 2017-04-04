@@ -1,0 +1,6 @@
+<h2>Edit instance</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: dropper_instance_path(@conn, :update, @dropper_id, @instance) %>
+
+<%= link "Back", to: dropper_instance_path(@conn, :index, @dropper_id) %>

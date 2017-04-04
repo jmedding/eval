@@ -35,10 +35,10 @@ applyMeasureFuncs : List (Product.Model -> Float) -> Product.Model -> ( Float, S
 applyMeasureFuncs measureFuncs product =
   let
     score = List.foldr (\func score-> score  + func product) 0 measureFuncs
-    description = product.description
+    brand = product.brand
 
   in
-    ( score, description )
+    ( score, brand )
 
 
 excludeProducts : List Excluder.Model -> List Product.Model -> List Product.Model

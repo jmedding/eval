@@ -2,7 +2,7 @@ defmodule Eval.DropperControllerTest do
   use Eval.ConnCase
 
   alias Eval.Dropper
-  @valid_attrs %{description: "some content", diameter: "some content", length: "some content", manufacturer: "some content", partNo: "some content", price: "120.5", reliability: "120.5", weight: "120.5"}
+  @valid_attrs %{brand: "some content", from: %{day: 17, month: 4, year: 2010}, manUrl: "some content", model: "some content", reliability: "120.5", to: %{day: 17, month: 4, year: 2010}}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do
@@ -27,9 +27,9 @@ defmodule Eval.DropperControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    dropper = Repo.insert! %Dropper{}
+    dropper = insert :dropper
     conn = get conn, dropper_path(conn, :show, dropper)
-    assert html_response(conn, 200) =~ "Show dropper"
+    assert html_response(conn, 200) =~ "AwesomeDropper5"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

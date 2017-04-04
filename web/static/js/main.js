@@ -13384,7 +13384,7 @@ var _user$project$Components_Product$toggle_include = F2(
 	});
 var _user$project$Components_Product$Model = F8(
 	function (a, b, c, d, e, f, g, h) {
-		return {manufacturer: a, partNo: b, description: c, diameter: d, length: e, price: f, reliability: g, include: h};
+		return {brand: a, partNo: b, model: c, diameter: d, length: e, price: f, reliability: g, include: h};
 	});
 var _user$project$Components_Product$decodeProduct = A2(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
@@ -13407,7 +13407,7 @@ var _user$project$Components_Product$decodeProduct = A2(
 					_elm_lang$core$Json_Decode$string,
 					A3(
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-						'description',
+						'model',
 						_elm_lang$core$Json_Decode$string,
 						A3(
 							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
@@ -13415,7 +13415,7 @@ var _user$project$Components_Product$decodeProduct = A2(
 							_elm_lang$core$Json_Decode$string,
 							A3(
 								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-								'manufacturer',
+								'brand',
 								_elm_lang$core$Json_Decode$string,
 								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Components_Product$Model)))))))));
 var _user$project$Components_Product$decodeProductList = A2(
@@ -13492,13 +13492,13 @@ var _user$project$Components_Product$view = function (model) {
 				_0: _elm_lang$html$Html$text(
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						model.manufacturer,
+						model.brand,
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							' ',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								model.description,
+								model.model,
 								A2(
 									_elm_lang$core$Basics_ops['++'],
 									' ',
@@ -13574,9 +13574,9 @@ var _user$project$Components_Excluder$initialExcluders = function (products) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Manufacturer',
+				_0: 'Brand',
 				_1: function (product) {
-					return product.manufacturer;
+					return product.brand;
 				}
 			},
 			_1: {
@@ -13903,7 +13903,7 @@ var _user$project$Components_Results$excludeProducts = F2(
 	});
 var _user$project$Components_Results$applyMeasureFuncs = F2(
 	function (measureFuncs, product) {
-		var description = product.description;
+		var brand = product.brand;
 		var score = A3(
 			_elm_lang$core$List$foldr,
 			F2(
@@ -13912,7 +13912,7 @@ var _user$project$Components_Results$applyMeasureFuncs = F2(
 				}),
 			0,
 			measureFuncs);
-		return {ctor: '_Tuple2', _0: score, _1: description};
+		return {ctor: '_Tuple2', _0: score, _1: brand};
 	});
 var _user$project$Components_Results$primeFunction = F2(
 	function (products, measure) {

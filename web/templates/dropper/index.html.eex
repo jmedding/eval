@@ -3,14 +3,12 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Manufacturer</th>
-      <th>Partno</th>
-      <th>Description</th>
-      <th>Diameter</th>
-      <th>Length</th>
-      <th>Price</th>
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Manurl</th>
+      <th>From</th>
+      <th>To</th>
       <th>Reliability</th>
-      <th>Weight</th>
 
       <th></th>
     </tr>
@@ -18,14 +16,12 @@
   <tbody>
 <%= for dropper <- @droppers do %>
     <tr>
-      <td><%= dropper.manufacturer %></td>
-      <td><%= dropper.partNo %></td>
-      <td><%= dropper.description %></td>
-      <td><%= dropper.diameter %></td>
-      <td><%= dropper.length %></td>
-      <td><%= dropper.price %></td>
+      <td><%= dropper.brand %></td>
+      <td><%= dropper.model %></td>
+      <td><%= dropper.manUrl %></td>
+      <td><%= dropper.from %></td>
+      <td><%= dropper.to %></td>
       <td><%= dropper.reliability %></td>
-      <td><%= dropper.weight %></td>
 
       <td class="text-right">
         <%= link "Show", to: dropper_path(@conn, :show, dropper), class: "btn btn-default btn-xs" %>

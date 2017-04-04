@@ -18,7 +18,12 @@ defmodule Eval.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/droppers", DropperController
+    
+    resources "/droppers", DropperController do
+      resources "/instances", InstanceController
+      resources "/reviews", ReviewController, except: [:index,:show]
+    end
+
   end
 
   #Other scopes may use custom stacks.

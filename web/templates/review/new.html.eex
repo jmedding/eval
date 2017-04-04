@@ -1,0 +1,6 @@
+<h2>New review</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: dropper_review_path(@conn, :create, @dropper_id) %>
+
+<%= link "Back", to: dropper_path(@conn, :show, @dropper_id) %>

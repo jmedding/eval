@@ -27,7 +27,9 @@ defmodule Eval.DropperController do
   end
 
   def show(conn, %{"id" => id}) do
-    dropper = Repo.get!(Dropper, id)
+    dropper = Repo.get!(Dropper, id)  
+    |> Repo.preload([:instances])
+    |> Repo.preload([:reviews])
     render(conn, "show.html", dropper: dropper)
   end
 
@@ -58,6 +60,8 @@ defmodule Eval.DropperController do
     # it to always work (and if it does not, it will raise).
     Repo.delete!(dropper)
 
+    # TODO: need to think about deleting the associated
+    #       reviews and instances as well... 
     conn
     |> put_flash(:info, "Dropper deleted successfully.")
     |> redirect(to: dropper_path(conn, :index))

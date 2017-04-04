@@ -1,30 +1,29 @@
 defmodule Eval.ApiView do
   use Eval.Web, :view
 
-  def render("index.json", %{droppers: droppers}) do
+  def render("index.json", %{instances: instances}) do
 		%{
-			droppers: Enum.map(droppers, &dropper_json/1)
+			droppers: Enum.map(instances, &instance_json/1)
 		}
 	end
 
-	def render("show.json", %{dropper: dropper}) do
+	def render("show.json", %{instance: instance}) do
 		%{
-			dropper: dropper_json(dropper)
+			dropper: instance_json(instance)
 		}
 	end
 
-	def dropper_json(dropper) do
+	def instance_json(instance) do
 		%{
-			manufacturer: dropper.manufacturer,
-			partNo: dropper.partNo,
-			description: dropper.description,
-			diameter: dropper.diameter,
-			length: dropper.length,
-			weight: dropper.weight,
-			price: dropper.price,
-			reliability: dropper.reliability,
-			inserted_at: dropper.inserted_at,
-			updated_at: dropper.updated_at
+			brand: instance.dropper.brand,
+			partNo: instance.partNo,
+			model: instance.dropper.model,
+			diameter: instance.diameter,
+			length: instance.length,
+			price: instance.price,
+			reliability: instance.dropper.reliability,
+			inserted_at: instance.inserted_at,
+			updated_at: instance.updated_at
 		}
 	end
 end

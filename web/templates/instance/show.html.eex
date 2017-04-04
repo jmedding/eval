@@ -1,0 +1,38 @@
+<h2>Show instance</h2>
+
+<ul>
+
+  <li>
+    <strong>Partno:</strong>
+    <%= @instance.partNo %>
+  </li>
+
+  <li>
+    <strong>Diameter:</strong>
+    <%= @instance.diameter %>
+  </li>
+
+  <li>
+    <strong>Length:</strong>
+    <%= @instance.length %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @instance.price %>
+  </li>
+
+  <li>
+    <strong>Weight:</strong>
+    <%= @instance.weight %>
+  </li>
+
+  <li>
+    <strong>Dropper:</strong>
+    <%= @instance.dropper_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: dropper_instance_path(@conn, :edit, @dropper, @instance) %>
+<%= link "Back", to: dropper_instance_path(@conn, :index, @dropper) %>
