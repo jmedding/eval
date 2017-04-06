@@ -22,7 +22,7 @@
       <td><%= review.publisher %></td>
       <td><%= review.review_url %></td>
       <td><%= review.dropper_id %></td>
-      <td><%= review.logo_url_string %></td>
+      <td><%= review.logo_url %></td>
       <td><%= review.reliability %></td>
       <td><%= review.publisher_weight %></td>
       <td><%= review.summary %></td>
@@ -30,7 +30,7 @@
       <td><%= review.rating %></td>
 
       <td class="text-right">
-        <%= link "Show", to: dropper_review_path(@conn, :show, @dropper_id, review), class: "btn btn-default btn-xs" %>
+        <%= link "Show", to: review.review_url, class: "btn btn-default btn-xs" %>
         <%= link "Edit", to: dropper_review_path(@conn, :edit, @dropper_id, review), class: "btn btn-default btn-xs" %>
         <%= link "Delete", to: dropper_review_path(@conn, :delete, @dropper_id, review), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>

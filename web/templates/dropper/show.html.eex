@@ -30,4 +30,7 @@
 <%= link "Edit | ", to: dropper_path(@conn, :edit, @dropper) %>
 <%= link "Back", to: dropper_path(@conn, :index) %>
 
-<%= render Eval.ReviewView, "table.html", reviews: @dropper.reviews, conn: @conn, dropper_id: @dropper.id %>
+<hr>
+<%= for reviews <- @dropper.reviews do %>
+  <%= render Eval.ReviewView, "show.html", review: reviews, conn: @conn, dropper_id: @dropper.id %>
+<% end %>

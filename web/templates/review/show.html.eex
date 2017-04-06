@@ -1,58 +1,33 @@
-<h2>Show review</h2>
+<div class="row"> 
+  <div class="row">
+    <h3> <%= link @review.title, to: @review.review_url %> </h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class=row>
+        <%= @review.publisher %> 
+        (<%= @review.publisher_weight %>)
+      </div>
+      <div class=row>
+        <%= @review.published_on %>
+      </div>
+    </div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-4">
+      <div class="row">
+        Impression: <%= @review.rating %>
+      </div>
+      <div class="row">
+        Reliability: <%= @review.reliability %>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<div class=row>
+<br>
+  <%= @review.summary %>
+</div>
 
-<ul>
-
-  <li>
-    <strong>Title:</strong>
-    <%= @review.title %>
-  </li>
-
-  <li>
-    <strong>Publisher:</strong>
-    <%= @review.publisher %>
-  </li>
-
-  <li>
-    <strong>Review url:</strong>
-    <%= @review.review_url %>
-  </li>
-
-  <li>
-    <strong>Dropper:</strong>
-    <%= @review.dropper_id %>
-  </li>
-
-  <li>
-    <strong>Logo url:</strong>
-    <%= @review.logo_url %>
-  </li>
-
-  <li>
-    <strong>Reliability:</strong>
-    <%= @review.reliability %>
-  </li>
-
-  <li>
-    <strong>Publisher weight:</strong>
-    <%= @review.publisher_weight %>
-  </li>
-
-  <li>
-    <strong>Summary:</strong>
-    <%= @review.summary %>
-  </li>
-
-  <li>
-    <strong>Published on:</strong>
-    <%= @review.published_on %>
-  </li>
-
-  <li>
-    <strong>Rating:</strong>
-    <%= @review.rating %>
-  </li>
-
-</ul>
-
-<%= link "Edit", to: dropper_review_path(@conn, :edit, @dropper_id, @review) %>
+<%= link "Edit | ", to: dropper_review_path(@conn, :edit, @dropper_id, @review) %>
 <%= link "Back", to: dropper_path(@conn, :show, @dropper_id) %>
