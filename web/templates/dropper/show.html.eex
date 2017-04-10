@@ -1,10 +1,10 @@
-<h2><%= "#{@dropper.brand} #{@dropper.model}" %></h2>
+<h2><%= link "#{@dropper.brand} #{@dropper.model}", to: @dropper.manUrl %></h2>
 
 <ul>
 
   <li>
-    <strong>Website:</strong>
-    <%= @dropper.manUrl %>
+    <strong>Internal:</strong>
+    <%= @dropper.internal %>
   </li>
 
   <li>

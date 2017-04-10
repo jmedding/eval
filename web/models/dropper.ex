@@ -5,6 +5,7 @@ defmodule Eval.Dropper do
     field :brand, :string
     field :model, :string
     field :manUrl, :string
+    field :internal, :boolean
     field :from, Ecto.Date
     field :to, Ecto.Date
     field :reliability, :float
@@ -20,7 +21,7 @@ defmodule Eval.Dropper do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:brand, :model, :manUrl, :from, :to, :reliability])
-    |> validate_required([:brand, :model, :manUrl, :from, :to, :reliability])
+    |> cast(params, [:brand, :model, :manUrl, :internal, :from, :to, :reliability])
+    |> validate_required([:brand, :model, :manUrl, :internal, :from, :to, :reliability])
   end
 end

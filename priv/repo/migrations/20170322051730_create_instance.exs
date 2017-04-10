@@ -8,6 +8,7 @@ defmodule Eval.Repo.Migrations.CreateInstance do
       add :length, :string
       add :price, :float
       add :weight, :float
+      add :remark, :string
       add :dropper_id, references(:droppers, on_delete: :nothing)
 
       timestamps()

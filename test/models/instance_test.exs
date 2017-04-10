@@ -3,7 +3,7 @@ defmodule Eval.InstanceTest do
 
   alias Eval.Instance
 
-  @valid_attrs %{dropper_id: 2, diameter: "some content", length: "some content", partNo: "some content", price: "120.5", weight: "120.5"}
+  @valid_attrs %{dropper_id: 2, diameter: "some content", length: "some content", partNo: "some content", price: "120.5", weight: "120.5", remark: "Special"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

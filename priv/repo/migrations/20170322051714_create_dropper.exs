@@ -6,6 +6,7 @@ defmodule Eval.Repo.Migrations.CreateDropper do
       add :brand, :string
       add :model, :string
       add :manUrl, :string
+      add :internal, :boolean
       add :from, :date
       add :to, :date
       add :reliability, :float

@@ -2,7 +2,7 @@ defmodule Eval.DropperControllerTest do
   use Eval.ConnCase
 
   alias Eval.Dropper
-  @valid_attrs %{brand: "some content", from: %{day: 17, month: 4, year: 2010}, manUrl: "some content", model: "some content", reliability: "120.5", to: %{day: 17, month: 4, year: 2010}}
+  @valid_attrs %{brand: "some content", from: %{day: 17, month: 4, year: 2010}, manUrl: "some content", internal: true, model: "some content", reliability: "120.5", to: %{day: 17, month: 4, year: 2010}}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do

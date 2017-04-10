@@ -6,6 +6,7 @@
       <th>Length (mm)</th>
       <th>Price ($)</th>
       <th>Weight (g)</th>
+      <th>Remark</th>
 
       <th></th>
     </tr>
@@ -18,6 +19,7 @@
       <td><%= instance.length %></td>
       <td><%= instance.price %></td>
       <td><%= instance.weight %></td>
+      <td><%= instance.remark %></td>
 
       <td class="text-right">
         <%= link "Show", to: dropper_instance_path(@conn, :show, @dropper_id, instance), class: "btn btn-default btn-xs" %>

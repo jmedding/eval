@@ -22,6 +22,7 @@ defmodule Eval.ApiView do
 			length: instance.length,
 			price: instance.price,
 			reliability: instance.dropper.reliability,
+			internal: instance.dropper.internal,
 			inserted_at: instance.inserted_at,
 			updated_at: instance.updated_at
 		}

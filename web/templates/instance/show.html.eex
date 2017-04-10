@@ -28,6 +28,11 @@
   </li>
 
   <li>
+    <strong>Remark:</strong>
+    <%= @instance.remark %>
+  </li>
+
+  <li>
     <strong>Dropper:</strong>
     <%= @instance.dropper_id %>
   </li>

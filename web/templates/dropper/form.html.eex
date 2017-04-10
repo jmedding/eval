@@ -24,6 +24,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :internal, class: "control-label" %>
+    <%= checkbox f, :internal, class: "form-control" %>
+    <%= error_tag f, :internal %>
+  </div>
+
+  <div class="form-group">
     <%= label f, :from, class: "control-label" %>
     <%= date_select f, :from, class: "form-control" %>
     <%= error_tag f, :from %>

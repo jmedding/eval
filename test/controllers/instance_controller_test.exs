@@ -3,7 +3,7 @@ defmodule Eval.InstanceControllerTest do
   import Eval.Factory
 
   alias Eval.Instance
-  @valid_attrs %{diameter: "some content", length: "some content", partNo: "some content", price: "120.5", weight: "120.5"}
+  @valid_attrs %{diameter: "some content", length: "some content", partNo: "some content", price: "120.5", weight: "120.5", remark: "special"}
   @invalid_attrs %{diameter: nil}
 
 

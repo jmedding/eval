@@ -7,6 +7,7 @@ defmodule Eval.Instance do
     field :length, :string
     field :price, :float
     field :weight, :float
+    field :remark, :string
     belongs_to :dropper, Eval.Dropper
 
     timestamps()
@@ -17,7 +18,7 @@ defmodule Eval.Instance do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:dropper_id, :partNo, :diameter, :length, :price, :weight])
+    |> cast(params, [:dropper_id, :partNo, :diameter, :length, :price, :weight, :remark])
     |> validate_required([:dropper_id, :partNo, :diameter, :length, :price, :weight])
   end
 end

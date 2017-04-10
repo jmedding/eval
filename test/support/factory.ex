@@ -8,6 +8,7 @@ defmodule Eval.Factory do
 			brand: "Brand",
 			model: "AwesomeDropper5",
 			manUrl: "some.url.com",
+			internal: true,
 			from: "2016-01-01",
 			to: "2018-01-01",
 			reliability: 5.0
@@ -21,6 +22,7 @@ defmodule Eval.Factory do
     	length: "150",
     	price: 425,
     	weight: 477,
+    	remark: "special",
     	dropper: build(:dropper)
 		}
 	end

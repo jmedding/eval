@@ -36,6 +36,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :remark, class: "control-label" %>
+    <%= text_input f, :remark, class: "form-control" %>
+    <%= error_tag f, :remark %>
+  </div>
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
