@@ -17,6 +17,7 @@ defmodule Eval.ApiViewTest do
 			price: instance.price,
 			reliability: instance.dropper.reliability,
 			internal: instance.dropper.internal,
+			actuator: instance.dropper.actuator,
 			inserted_at: instance.inserted_at,
 			updated_at: instance.updated_at
 		}

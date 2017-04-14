@@ -9,6 +9,7 @@ defmodule Eval.Factory do
 			model: "AwesomeDropper5",
 			manUrl: "some.url.com",
 			internal: true,
+			actuator: "hydraulic",
 			from: "2016-01-01",
 			to: "2018-01-01",
 			reliability: 5.0
