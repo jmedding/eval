@@ -13,6 +13,7 @@ d = Repo.insert! %Dropper {
 	from: Ecto.Date.cast!("2016-01-01"),
 	to: Ecto.Date.cast!("2018-01-01"),
 	internal: true,
+	actuator: "hydraulic",
 	reliability: 3.0
 }
 
@@ -33,6 +34,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 510.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -42,6 +44,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 520.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}
 
 	Repo.insert! %Instance {
@@ -61,6 +64,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 520.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -70,6 +74,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 530.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}
 
 	Repo.insert! %Instance {
@@ -89,6 +94,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 535.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -98,6 +104,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 545.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}
 
 
@@ -118,6 +125,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 570.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -127,6 +135,7 @@ d = Repo.insert! %Dropper {
 	    	price: 471.0,
 	    	weight: 580.0,
 	    	remark: "Right side remote",
+	    	dropper_id: d.id
 	}
 
 

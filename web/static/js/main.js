@@ -13382,53 +13382,78 @@ var _user$project$Components_Product$toggle_include = F2(
 		};
 		return A2(_elm_lang$core$List$map, updateProduct, products);
 	});
-var _user$project$Components_Product$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {brand: a, partNo: b, model: c, diameter: d, length: e, price: f, reliability: g, include: h};
-	});
+var _user$project$Components_Product$Model = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return {brand: a, partNo: b, model: c, diameter: d, length: e, actuator: f, price: g, reliability: h, weight: i, include: j};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
 var _user$project$Components_Product$decodeProduct = A2(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
 	true,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'reliability',
-		_elm_lang$core$Json_Decode$float,
+		'weight',
+		_elm_lang$core$Json_Decode$int,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'price',
+			'reliability',
 			_elm_lang$core$Json_Decode$float,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'length',
-				_elm_lang$core$Json_Decode$string,
+				'price',
+				_elm_lang$core$Json_Decode$float,
 				A3(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-					'diameter',
+					'actuator',
 					_elm_lang$core$Json_Decode$string,
 					A3(
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-						'model',
+						'length',
 						_elm_lang$core$Json_Decode$string,
 						A3(
 							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-							'partNo',
+							'diameter',
 							_elm_lang$core$Json_Decode$string,
 							A3(
 								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-								'brand',
+								'model',
 								_elm_lang$core$Json_Decode$string,
-								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Components_Product$Model)))))))));
+								A3(
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+									'partNo',
+									_elm_lang$core$Json_Decode$string,
+									A3(
+										_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+										'brand',
+										_elm_lang$core$Json_Decode$string,
+										_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Components_Product$Model)))))))))));
 var _user$project$Components_Product$decodeProductList = A2(
 	_elm_lang$core$Json_Decode$field,
 	'droppers',
 	_elm_lang$core$Json_Decode$list(_user$project$Components_Product$decodeProduct));
-var _user$project$Components_Product$Freshroducts = function (a) {
-	return {ctor: 'Freshroducts', _0: a};
+var _user$project$Components_Product$Freshproducts = function (a) {
+	return {ctor: 'Freshproducts', _0: a};
 };
 var _user$project$Components_Product$fetchProducts = function () {
 	var url = '/api/droppers';
 	var request = A2(_elm_lang$http$Http$get, url, _user$project$Components_Product$decodeProductList);
-	return A2(_elm_lang$http$Http$send, _user$project$Components_Product$Freshroducts, request);
+	return A2(_elm_lang$http$Http$send, _user$project$Components_Product$Freshproducts, request);
 }();
 var _user$project$Components_Product$update = F2(
 	function (msg, products) {
@@ -13574,21 +13599,31 @@ var _user$project$Components_Excluder$initialExcluders = function (products) {
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'Brand',
+				_0: 'Length',
 				_1: function (product) {
-					return product.brand;
+					return product.length;
 				}
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'Length',
+					_0: 'Brand',
 					_1: function (product) {
-						return product.length;
+						return product.brand;
 					}
 				},
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'Actuator',
+						_1: function (product) {
+							return product.actuator;
+						}
+					},
+					_1: {ctor: '[]'}
+				}
 			}
 		}
 	};
@@ -13717,6 +13752,34 @@ var _user$project$Components_Measure$update = F2(
 				_elm_lang$core$String$toInt(_p1._1)));
 		return {ctor: '_Tuple2', _0: updatedMeasures, _1: _elm_lang$core$Platform_Cmd$none};
 	});
+var _user$project$Components_Measure$primeWeight = F3(
+	function (weight, products, product) {
+		var minRange = 100;
+		var weights = A2(
+			_elm_lang$core$List$map,
+			function (product) {
+				return _elm_lang$core$Basics$toFloat(product.weight);
+			},
+			products);
+		var min = A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (next, min) {
+					return (_elm_lang$core$Native_Utils.cmp(next, min) < 0) ? next : min;
+				}),
+			999999,
+			weights);
+		var max = A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (next, max) {
+					return (_elm_lang$core$Native_Utils.cmp(next, max) > 0) ? next : max;
+				}),
+			-99999,
+			weights);
+		var range = (_elm_lang$core$Native_Utils.cmp(max - min, minRange) < 0) ? minRange : (max - minRange);
+		return (((max - _elm_lang$core$Basics$toFloat(product.weight)) / range) * 10) * _elm_lang$core$Basics$toFloat(weight);
+	});
 var _user$project$Components_Measure$primePrice = F3(
 	function (weight, products, product) {
 		var minRange = 100;
@@ -13759,7 +13822,11 @@ var _user$project$Components_Measure$initialMeasures = {
 	_1: {
 		ctor: '::',
 		_0: A4(_user$project$Components_Measure$Model, 'Price', 'price', 5, _user$project$Components_Measure$primePrice),
-		_1: {ctor: '[]'}
+		_1: {
+			ctor: '::',
+			_0: A4(_user$project$Components_Measure$Model, 'Weight', 'weight', 5, _user$project$Components_Measure$primeWeight),
+			_1: {ctor: '[]'}
+		}
 	}
 };
 var _user$project$Components_Measure$Changed = F2(
@@ -13942,10 +14009,10 @@ var _user$project$Main$subscriptions = function (model) {
 };
 var _user$project$Main$initialProducts = {
 	ctor: '::',
-	_0: A8(_user$project$Components_Product$Model, 'Rockshox', '001', 'Reverb 125mm / 30.9mm', '30.9', '125 mm', 450, 2, true),
+	_0: _user$project$Components_Product$Model('Rockshox')('001')('Reverb 125mm / 30.9mm')('30.9')('125 mm')('cable')(450)(2)(500)(true),
 	_1: {
 		ctor: '::',
-		_0: A8(_user$project$Components_Product$Model, 'Fox', '101', 'Dropper 150mm / 30.9mm', '30.9', '150 mm', 475, 5, true),
+		_0: _user$project$Components_Product$Model('Fox')('101')('Dropper 150mm / 30.9mm')('30.9')('150 mm')('hydraulic')(475)(5)(520)(true),
 		_1: {ctor: '[]'}
 	}
 };

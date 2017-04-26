@@ -21,8 +21,10 @@ Repo.delete_all Dropper
 
 brands = [
  "9point8",
+ "fox",
  "rockshox",
- "ks"
+ "ks",
+ "magura"
 ]
 
 Enum.map brands, fn(brand) -> Code.load_file("priv/repo/droppers/" <> brand <> "/droppers.exs") end

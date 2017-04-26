@@ -15,6 +15,7 @@ defmodule Eval.ApiViewTest do
 			diameter: instance.diameter,
 			length: instance.length,
 			price: instance.price,
+			weight: instance.weight,
 			reliability: instance.dropper.reliability,
 			internal: instance.dropper.internal,
 			actuator: instance.dropper.actuator,

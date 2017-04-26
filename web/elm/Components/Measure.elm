@@ -19,6 +19,7 @@ initialMeasures : List Model
 initialMeasures =
   [ Model "Reliability" "reliability"  5 primeReliability
   , Model "Price" "price"  5 primePrice
+  , Model "Weight" "weight" 5 primeWeight
   ]
 
 
@@ -38,7 +39,17 @@ primePrice weight products product =
   in
     ( max - product.price ) / range * 10 * (toFloat weight)
 
+primeWeight : Int -> List Product.Model -> Product.Model -> Float
+primeWeight weight products product =
+  let
+    weights = List.map (\product -> toFloat product.weight ) products
+    min = List.foldl (\next min-> if next < min then next else min) 999999 weights
+    max = List.foldl (\next max -> if next > max then next else max) -99999 weights
+    minRange = 100
+    range = if max - min < minRange then minRange else max - minRange
 
+  in
+    ( max - toFloat product.weight ) / range * 10 * (toFloat weight)
 
 -- MESSAGES
 

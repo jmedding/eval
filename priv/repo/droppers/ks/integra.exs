@@ -11,6 +11,7 @@ alias Eval.Review
 	model: "LEV INTEGRA",
 	manUrl: "http://kssuspension.com/product/lev-integra/",
 	internal: true,
+	actuator: "cable",
 	from: Ecto.Date.cast!("2013-01-09"),
 	to: Ecto.Date.cast!("2018-01-01"),
 	reliability: 3.0
@@ -36,6 +37,7 @@ alias Eval.Review
 	    	price: 339.0,
 	    	weight: 570.0,
 	    	remark: "",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -45,6 +47,7 @@ alias Eval.Review
 	    	price: 339.0,
 	    	weight: 590.0,
 	    	remark: "",
+	    	dropper_id: d.id
 	}
 
 	Repo.insert! %Instance {
@@ -64,6 +67,7 @@ alias Eval.Review
 	    	price: 339.0,
 	    	weight: 595.0,
 	    	remark: "",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -72,7 +76,8 @@ alias Eval.Review
 	    	length: "125",
 	    	price: 369.0,
 	    	weight: 615.0,
-	    	remark: "Right side remote",
+	    	remark: "",
+	    	dropper_id: d.id
 	}
 
 	Repo.insert! %Instance {
@@ -81,7 +86,7 @@ alias Eval.Review
 	    	length: "150",
 	    	price: 359.0,
 	    	weight: 610.0,
-	    	remark: "Right side remote",
+	    	remark: "",
 	    	dropper_id: d.id
 	}
 
@@ -91,7 +96,8 @@ alias Eval.Review
 	    	length: "150",
 	    	price: 359.0,
 	    	weight: 620.0,
-	    	remark: "Right side remote",
+	    	remark: "",
+	    	dropper_id: d.id
 	}	
 
 	Repo.insert! %Instance {
@@ -100,7 +106,8 @@ alias Eval.Review
 	    	length: "150",
 	    	price: 389.0,
 	    	weight: 635.0,
-	    	remark: "Right side remote",
+	    	remark: "",
+	    	dropper_id: d.id
 	}
 
 

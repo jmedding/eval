@@ -4,7 +4,7 @@ import Html exposing ( Html, div, text, input )
 import Http
 import Html.Attributes exposing ( type_, class, checked )
 import Html.Events exposing ( onClick )
-import Json.Decode as Decode exposing ( Decoder, string, float )
+import Json.Decode as Decode exposing ( Decoder, string, float, int )
 import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
 
 import Debug exposing ( log )
@@ -19,8 +19,10 @@ type alias Model =
   , model : String
   , diameter : String
   , length : String
+  , actuator : String
   , price : Float
   , reliability : Float
+  , weight : Int
   , include : Bool
   }
 
@@ -31,7 +33,7 @@ fetchProducts =
     request = Http.get url ( decodeProductList )
 
   in
-    Http.send Freshroducts request
+    Http.send Freshproducts request
 
 decodeProductList : Decoder (List Model)
 decodeProductList =
@@ -45,8 +47,10 @@ decodeProduct =
     |> required "model" string
     |> required "diameter" string
     |> required "length" string
+    |> required "actuator" string
     |> required "price" float
     |> required "reliability" float
+    |> required "weight" int
     |> hardcoded True
 
 
@@ -57,7 +61,7 @@ decodeProduct =
 type Msg =
   Filter PartNo
   | Fetch
-  | Freshroducts (Result Http.Error (List Model))
+  | Freshproducts (Result Http.Error (List Model))
 
 
 -- VIEW
@@ -87,10 +91,10 @@ update msg products =
 
     Fetch -> ( products, fetchProducts )
 
-    Freshroducts (Ok newProducts) -> 
+    Freshproducts (Ok newProducts) -> 
       log "New Products" (newProducts, Cmd.none)
 
-    Freshroducts ( Err _ ) ->
+    Freshproducts ( Err _ ) ->
       log "error" ( products, Cmd.none )
 
 

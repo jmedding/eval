@@ -60,3 +60,15 @@ jsonProductString =
     ]
 }
   """ 
+
+-- TODOS
+--   Fix label position in chart
+--   Filters should not reset when instance is selected/deselected
+--   Sort droppers by score for the chart (pareto)
+--   Add tooltip to chart bars
+--   Remember filter settings in refresh
+--   Add reset for filter features
+
+-- DONE
+--   Add actuator as a filter
+--   Add instance weight as a measure

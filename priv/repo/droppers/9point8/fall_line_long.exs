@@ -7,11 +7,12 @@ alias Eval.Review
 
 d = Repo.insert! %Dropper {
 	brand: "9point8",
-	model: "Fall Line 175-200mm Stroke",
+	model: "Fall Line", #  175-200mm Stroke
 	manUrl: "https://intl.9point8.ca/index.php?route=product/product&path=42&product_id=121",
 	from: Ecto.Date.cast!("2016-01-01"),
 	to: Ecto.Date.cast!("2018-01-01"),
 	internal: true,
+	actuator: "cable",
 	reliability: 5.0
 }
 
@@ -20,7 +21,7 @@ d = Repo.insert! %Dropper {
 	    	diameter: "30.9",
 	    	length: "175",
 	    	price: 449.0,
-	    	weight: 527.0,
+	    	weight: 609.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -30,7 +31,7 @@ d = Repo.insert! %Dropper {
 	    	diameter: "30.9",
 	    	length: "200",
 	    	price: 449.0,
-	    	weight: 554.0,
+	    	weight: 646.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -40,7 +41,7 @@ d = Repo.insert! %Dropper {
 	    	diameter: "31.6",
 	    	length: "175",
 	    	price: 449.0,
-	    	weight: 564.0,
+	    	weight: 636.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -50,7 +51,7 @@ d = Repo.insert! %Dropper {
 	    	diameter: "31.6",
 	    	length: "200",
 	    	price: 449.0,
-	    	weight: 594.0,
+	    	weight: 676.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}

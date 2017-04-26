@@ -31,8 +31,9 @@ initialExcluders products =
   let
     excluders = 
       [ ("Diameter",     \product -> product.diameter)
-      , ("Brand", \product -> product.brand)
       , ("Length",       \product -> product.length)
+      , ("Brand", \product -> product.brand)
+      , ("Actuator", \product -> product.actuator)
       ]
 
   in

@@ -8,9 +8,10 @@ alias Eval.Review
 #  9point8
  d = Repo.insert! %Dropper {
  	brand: "9point8",
-	model: "Fall Line 75-150mm Stroke",
+	model: "Fall Line", #  75-150mm Stroke
 	manUrl: "https://intl.9point8.ca/index.php?route=product/product&path=42&product_id=123",
 	internal: true,
+	actuator: "cable",
 	from: Ecto.Date.cast!("2015-01-10"),
 	to: Ecto.Date.cast!("2018-01-01"),
 	reliability: 5.0
@@ -23,7 +24,7 @@ alias Eval.Review
 	    	diameter: "30.9",
 	    	length: "75",
 	    	price: 399.0,
-	    	weight: 416.0,
+	    	weight: 498.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -33,7 +34,7 @@ alias Eval.Review
 	    	diameter: "30.9",
 	    	length: "100",
 	    	price: 399.0,
-	    	weight: 416.0,
+	    	weight: 498.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -43,7 +44,7 @@ alias Eval.Review
 	    	diameter: "30.9",
 	    	length: "125",
 	    	price: 399.0,
-	    	weight: 416.0,
+	    	weight: 498.0,
 	    	remark: "Length 375mm",
 	    	dropper_id: d.id
 	}
@@ -53,7 +54,7 @@ alias Eval.Review
 	    	diameter: "30.9",
 	    	length: "125",
 	    	price: 399.0,
-	    	weight: 484.0,
+	    	weight: 566.0,
 	    	remark: "Length 415mm",
 	    	dropper_id: d.id
 	}
@@ -63,7 +64,7 @@ alias Eval.Review
 	    	diameter: "30.9",
 	    	length: "150",
 	    	price: 399.0,
-	    	weight: 488.0,
+	    	weight: 570.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -73,7 +74,7 @@ alias Eval.Review
 	    	diameter: "31.6",
 	    	length: "75",
 	    	price: 399.0,
-	    	weight: 434.0,
+	    	weight: 516.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -83,7 +84,7 @@ alias Eval.Review
 	    	diameter: "31.6",
 	    	length: "100",
 	    	price: 399.0,
-	    	weight: 434.0,
+	    	weight: 516.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
@@ -94,7 +95,7 @@ alias Eval.Review
 	    	diameter: "31.6",
 	    	length: "125",
 	    	price: 399.0,
-	    	weight: 434.0,
+	    	weight: 516.0,
 	    	remark: "Length: 375mm",
 	    	dropper_id: d.id
 	}
@@ -104,7 +105,7 @@ alias Eval.Review
 	    	diameter: "31.6",
 	    	length: "125",
 	    	price: 399.0,
-	    	weight: 510.0,
+	    	weight: 592.0,
 	    	remark: "Length: 415mm",
 	    	dropper_id: d.id
 	}
@@ -114,7 +115,7 @@ alias Eval.Review
 	    	diameter: "31.6",
 	    	length: "150",
 	    	price: 399.0,
-	    	weight: 514.0,
+	    	weight: 596.0,
 	    	remark: "",
 	    	dropper_id: d.id
 	}
