@@ -63,12 +63,13 @@ jsonProductString =
 
 -- TODOS
 --   Fix label position in chart
---   Filters should not reset when instance is selected/deselected
 --   Sort droppers by score for the chart (pareto)
 --   Add tooltip to chart bars
 --   Remember filter settings in refresh
 --   Add reset for filter features
+--   Default is to show only one diameter and length
 
 -- DONE
+--   Filters should not reset when instance is selected/deselected
 --   Add actuator as a filter
 --   Add instance weight as a measure

@@ -12,28 +12,31 @@ import Components.Product as Product
 type alias Model =
   ( String, Dict String Bool, Product.Model -> String )
 
-buildExcluders: List (String, Product.Model -> String) -> List Product.Model -> List Model
+buildExcluders: List (String, Product.Model -> String, String -> Bool) -> List Product.Model -> List Model
 buildExcluders excluders products =
- List.map (\(label, getKeyFromProductFunc) -> ( label, getDictForLabel getKeyFromProductFunc products, getKeyFromProductFunc )) excluders
+ List.map (\(label, getKeyFromProductFunc, defaulter) -> ( label, getDictForLabel getKeyFromProductFunc products defaulter, getKeyFromProductFunc )) excluders
 
 
-getDictForLabel : ( Product.Model -> String ) -> List Product.Model -> (Dict String Bool)
-getDictForLabel extractKeyFunc products =
+getDictForLabel : ( Product.Model -> String ) -> List Product.Model -> (String -> Bool) -> (Dict String Bool)
+getDictForLabel extractKeyFunc products defaulter =
 
     List.map extractKeyFunc products 
     |> List.sort 
-    |> List.map (\key -> (key, True))
+    |> List.map (\key -> (key, defaulter(key)))
     |> Dict.fromList
+
+
 
 
 initialExcluders : List Product.Model -> List Model
 initialExcluders products =
   let
     excluders = 
-      [ ("Diameter",     \product -> product.diameter)
-      , ("Length",       \product -> product.length)
-      , ("Brand", \product -> product.brand)
-      , ("Actuator", \product -> product.actuator)
+      -- (lable, function to extract key, function to set value of key (true or false))
+      [ ("Diameter",     \product -> product.diameter, \key -> key == "30.9")
+      , ("Length",       \product -> product.length, \key -> key == "150")
+      , ("Brand", \product -> product.brand, \key -> True)
+      , ("Actuator", \product -> product.actuator, \key -> True)
       ]
 
   in

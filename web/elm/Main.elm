@@ -45,14 +45,6 @@ initialProducts =
   ]
 
 
--- MESSAGES
-
-type Msg =
-  MeasureMsg Measure.Msg 
-  | ProductMsg Product.Msg
-  | ChartMsg ChartView.Msg
-  | ExcluderMsg Excluder.Msg
-
 -- VIEW
 
 view : AppModel -> Html Msg
@@ -87,6 +79,15 @@ excluderListView excluders =
   List.map(\ excluder -> Html.map ExcluderMsg (Excluder.view excluder )) excluders
 
 
+-- MESSAGES
+
+type Msg =
+  MeasureMsg Measure.Msg 
+  | ProductMsg Product.Msg
+  | ChartMsg ChartView.Msg
+  | ExcluderMsg Excluder.Msg
+
+
 -- UPDATE
 
 update : Msg -> AppModel -> ( AppModel, Cmd Msg)
@@ -114,7 +115,10 @@ update message model =
         ( updatedProducts, productCmd ) = 
           Product.update subMsg model.productList
 
-        updatedExcluders = ( Excluder.initialExcluders updatedProducts )
+        updatedExcluders = case subMsg of 
+          Product.Fetch ->  model.excluderList
+          Product.Filter partNo -> model.excluderList
+          _ -> (Excluder.initialExcluders updatedProducts)
 
         updatedResults = (Results.getResults updatedExcluders model.measureList updatedProducts)
       

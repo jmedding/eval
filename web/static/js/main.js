@@ -13558,13 +13558,17 @@ var _user$project$Components_Excluder$update = F2(
 		var updatedExcluders = A4(_user$project$Components_Excluder$updateExcluders, excluders, _p6._0, _p6._1, _p6._2);
 		return {ctor: '_Tuple2', _0: updatedExcluders, _1: _elm_lang$core$Platform_Cmd$none};
 	});
-var _user$project$Components_Excluder$getDictForLabel = F2(
-	function (extractKeyFunc, products) {
+var _user$project$Components_Excluder$getDictForLabel = F3(
+	function (extractKeyFunc, products, defaulter) {
 		return _elm_lang$core$Dict$fromList(
 			A2(
 				_elm_lang$core$List$map,
 				function (key) {
-					return {ctor: '_Tuple2', _0: key, _1: true};
+					return {
+						ctor: '_Tuple2',
+						_0: key,
+						_1: defaulter(key)
+					};
 				},
 				_elm_lang$core$List$sort(
 					A2(_elm_lang$core$List$map, extractKeyFunc, products))));
@@ -13579,7 +13583,7 @@ var _user$project$Components_Excluder$buildExcluders = F2(
 				return {
 					ctor: '_Tuple3',
 					_0: _p8._0,
-					_1: A2(_user$project$Components_Excluder$getDictForLabel, _p9, products),
+					_1: A3(_user$project$Components_Excluder$getDictForLabel, _p9, products, _p8._2),
 					_2: _p9
 				};
 			},
@@ -13589,37 +13593,49 @@ var _user$project$Components_Excluder$initialExcluders = function (products) {
 	var excluders = {
 		ctor: '::',
 		_0: {
-			ctor: '_Tuple2',
+			ctor: '_Tuple3',
 			_0: 'Diameter',
 			_1: function (product) {
 				return product.diameter;
+			},
+			_2: function (key) {
+				return _elm_lang$core$Native_Utils.eq(key, '30.9');
 			}
 		},
 		_1: {
 			ctor: '::',
 			_0: {
-				ctor: '_Tuple2',
+				ctor: '_Tuple3',
 				_0: 'Length',
 				_1: function (product) {
 					return product.length;
+				},
+				_2: function (key) {
+					return _elm_lang$core$Native_Utils.eq(key, '150');
 				}
 			},
 			_1: {
 				ctor: '::',
 				_0: {
-					ctor: '_Tuple2',
+					ctor: '_Tuple3',
 					_0: 'Brand',
 					_1: function (product) {
 						return product.brand;
+					},
+					_2: function (key) {
+						return true;
 					}
 				},
 				_1: {
 					ctor: '::',
 					_0: {
-						ctor: '_Tuple2',
+						ctor: '_Tuple3',
 						_0: 'Actuator',
 						_1: function (product) {
 							return product.actuator;
+						},
+						_2: function (key) {
+							return true;
 						}
 					},
 					_1: {ctor: '[]'}
@@ -14213,10 +14229,21 @@ var _user$project$Main$update = F2(
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureMsg, measureCmd)
 				};
 			case 'ProductMsg':
-				var _p2 = A2(_user$project$Components_Product$update, _p0._0, model.productList);
+				var _p4 = _p0._0;
+				var _p2 = A2(_user$project$Components_Product$update, _p4, model.productList);
 				var updatedProducts = _p2._0;
 				var productCmd = _p2._1;
-				var updatedExcluders = _user$project$Components_Excluder$initialExcluders(updatedProducts);
+				var updatedExcluders = function () {
+					var _p3 = _p4;
+					switch (_p3.ctor) {
+						case 'Fetch':
+							return model.excluderList;
+						case 'Filter':
+							return model.excluderList;
+						default:
+							return _user$project$Components_Excluder$initialExcluders(updatedProducts);
+					}
+				}();
 				var updatedResults = A3(_user$project$Components_Results$getResults, updatedExcluders, model.measureList, updatedProducts);
 				return {
 					ctor: '_Tuple2',
@@ -14226,9 +14253,9 @@ var _user$project$Main$update = F2(
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, productCmd)
 				};
 			case 'ChartMsg':
-				var _p3 = A2(_user$project$Components_ChartView$update, _p0._0, model.results);
-				var updatedChartModel = _p3._0;
-				var chartCmd = _p3._1;
+				var _p5 = A2(_user$project$Components_ChartView$update, _p0._0, model.results);
+				var updatedChartModel = _p5._0;
+				var chartCmd = _p5._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -14237,9 +14264,9 @@ var _user$project$Main$update = F2(
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ChartMsg, chartCmd)
 				};
 			default:
-				var _p4 = A2(_user$project$Components_Excluder$update, _p0._0, model.excluderList);
-				var updatedExcluders = _p4._0;
-				var excluderCmd = _p4._1;
+				var _p6 = A2(_user$project$Components_Excluder$update, _p0._0, model.excluderList);
+				var updatedExcluders = _p6._0;
+				var excluderCmd = _p6._1;
 				var updatedResults = A3(_user$project$Components_Results$getResults, updatedExcluders, model.measureList, model.productList);
 				return {
 					ctor: '_Tuple2',
