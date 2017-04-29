@@ -18,7 +18,7 @@ getResults excluders measures products =
     measureFuncs = List.map primedFunction measures 
   in
     List.map (\ product -> applyMeasureFuncs measureFuncs product) filteredProducts
-      
+    |> List.sortBy ( \(rating, _) -> 0 - rating )
 
 primeFunction : List Product.Model -> Measure.Model -> (Product.Model -> Float)
 primeFunction products measure =

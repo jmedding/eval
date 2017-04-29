@@ -21,11 +21,9 @@ getDictForLabel : ( Product.Model -> String ) -> List Product.Model -> (String -
 getDictForLabel extractKeyFunc products defaulter =
 
     List.map extractKeyFunc products 
-    |> List.sort 
+    |> List.sort
     |> List.map (\key -> (key, defaulter(key)))
     |> Dict.fromList
-
-
 
 
 initialExcluders : List Product.Model -> List Model
@@ -64,9 +62,17 @@ checkboxesForKeys : Model -> List (Html Msg)
 checkboxesForKeys (label, dict, _ ) =
   let 
     pairs = Dict.toList dict
+    |> List.sortBy ( \(key, val) -> padNum key )
 
   in
     List.map (\(key, val) -> checkbox label key val ) pairs
+
+
+padNum : String -> String
+padNum val =
+  case String.toInt val of
+    Err _ -> val
+    Ok _  -> String.padLeft 5 ' ' val
 
 
 checkbox : String -> String  -> Bool -> Html Msg
