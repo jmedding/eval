@@ -20,8 +20,14 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
+var storedState = localStorage.getItem('eval-save');
+var startingState = storedState ? JSON.parse(storedState) : null;
+
 import Elm from './main';
 const elmDiv = document.querySelector('#elm-target');
 if (elmDiv) {
-  Elm.Main.embed(elmDiv);
+  var app = Elm.Main.embed(elmDiv, startingState);
+  app.ports.setStorage.subscribe(function(state) {
+    localStorage.setItem('eval-save', JSON.stringify(state));
+	});
 }

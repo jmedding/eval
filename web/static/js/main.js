@@ -13558,6 +13558,18 @@ var _user$project$Components_Excluder$update = F2(
 		var updatedExcluders = A4(_user$project$Components_Excluder$updateExcluders, excluders, _p6._0, _p6._1, _p6._2);
 		return {ctor: '_Tuple2', _0: updatedExcluders, _1: _elm_lang$core$Platform_Cmd$none};
 	});
+var _user$project$Components_Excluder$padNum = function (val) {
+	var _p7 = _elm_lang$core$String$toInt(val);
+	if (_p7.ctor === 'Err') {
+		return val;
+	} else {
+		return A3(
+			_elm_lang$core$String$padLeft,
+			5,
+			_elm_lang$core$Native_Utils.chr(' '),
+			val);
+	}
+};
 var _user$project$Components_Excluder$getDictForLabel = F3(
 	function (extractKeyFunc, products, defaulter) {
 		return _elm_lang$core$Dict$fromList(
@@ -13577,14 +13589,14 @@ var _user$project$Components_Excluder$buildExcluders = F2(
 	function (excluders, products) {
 		return A2(
 			_elm_lang$core$List$map,
-			function (_p7) {
-				var _p8 = _p7;
-				var _p9 = _p8._1;
+			function (_p8) {
+				var _p9 = _p8;
+				var _p10 = _p9._1;
 				return {
 					ctor: '_Tuple3',
-					_0: _p8._0,
-					_1: A3(_user$project$Components_Excluder$getDictForLabel, _p9, products, _p8._2),
-					_2: _p9
+					_0: _p9._0,
+					_1: A3(_user$project$Components_Excluder$getDictForLabel, _p10, products, _p9._2),
+					_2: _p10
 				};
 			},
 			excluders);
@@ -13684,20 +13696,26 @@ var _user$project$Components_Excluder$checkbox = F3(
 				}
 			});
 	});
-var _user$project$Components_Excluder$checkboxesForKeys = function (_p10) {
-	var _p11 = _p10;
-	var pairs = _elm_lang$core$Dict$toList(_p11._1);
+var _user$project$Components_Excluder$checkboxesForKeys = function (_p11) {
+	var _p12 = _p11;
+	var pairs = A2(
+		_elm_lang$core$List$sortBy,
+		function (_p13) {
+			var _p14 = _p13;
+			return _user$project$Components_Excluder$padNum(_p14._0);
+		},
+		_elm_lang$core$Dict$toList(_p12._1));
 	return A2(
 		_elm_lang$core$List$map,
-		function (_p12) {
-			var _p13 = _p12;
-			return A3(_user$project$Components_Excluder$checkbox, _p11._0, _p13._0, _p13._1);
+		function (_p15) {
+			var _p16 = _p15;
+			return A3(_user$project$Components_Excluder$checkbox, _p12._0, _p16._0, _p16._1);
 		},
 		pairs);
 };
-var _user$project$Components_Excluder$view = function (_p14) {
-	var _p15 = _p14;
-	var _p16 = _p15._0;
+var _user$project$Components_Excluder$view = function (_p17) {
+	var _p18 = _p17;
+	var _p19 = _p18._0;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -13716,7 +13734,7 @@ var _user$project$Components_Excluder$view = function (_p14) {
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(_p16),
+					_0: _elm_lang$html$Html$text(_p19),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -13738,7 +13756,7 @@ var _user$project$Components_Excluder$view = function (_p14) {
 								_1: {ctor: '[]'}
 							},
 							_user$project$Components_Excluder$checkboxesForKeys(
-								{ctor: '_Tuple3', _0: _p16, _1: _p15._1, _2: _p15._2})),
+								{ctor: '_Tuple3', _0: _p19, _1: _p18._1, _2: _p18._2})),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
@@ -14013,37 +14031,144 @@ var _user$project$Components_Results$getResults = F3(
 			products);
 		var filteredProducts = A2(_user$project$Components_Results$excludeProducts, excluders, selectedProducts);
 		return A2(
-			_elm_lang$core$List$map,
-			function (product) {
-				return A2(_user$project$Components_Results$applyMeasureFuncs, measureFuncs, product);
+			_elm_lang$core$List$sortBy,
+			function (_p3) {
+				var _p4 = _p3;
+				return 0 - _p4._0;
 			},
-			filteredProducts);
+			A2(
+				_elm_lang$core$List$map,
+				function (product) {
+					return A2(_user$project$Components_Results$applyMeasureFuncs, measureFuncs, product);
+				},
+				filteredProducts));
+	});
+
+var _user$project$Components_Settings$restoreExcluder = F2(
+	function (savedKeyVals, _p0) {
+		var _p1 = _p0;
+		var _p6 = _p1._0;
+		var _p5 = _p1._1;
+		var _p4 = _p1._2;
+		var _p2 = A2(_elm_lang$core$Dict$get, _p6, savedKeyVals);
+		if (_p2.ctor === 'Just') {
+			var _p3 = _p2._0;
+			var updatedKeys = A2(_elm_lang$core$Dict$intersect, _p3, _p5);
+			var newKeys = A2(_elm_lang$core$Dict$diff, _p5, _p3);
+			return {
+				ctor: '_Tuple3',
+				_0: _p6,
+				_1: A2(_elm_lang$core$Dict$union, newKeys, updatedKeys),
+				_2: _p4
+			};
+		} else {
+			return {ctor: '_Tuple3', _0: _p6, _1: _p5, _2: _p4};
+		}
+	});
+var _user$project$Components_Settings$restoreExcluders = F2(
+	function (settings, excluders) {
+		var savedExcluders = _elm_lang$core$Dict$fromList(
+			A2(
+				_elm_lang$core$List$map,
+				function (_p7) {
+					var _p8 = _p7;
+					return {
+						ctor: '_Tuple2',
+						_0: _p8._0,
+						_1: _elm_lang$core$Dict$fromList(_p8._1)
+					};
+				},
+				settings.excluders));
+		return A2(
+			_elm_lang$core$List$map,
+			_user$project$Components_Settings$restoreExcluder(savedExcluders),
+			excluders);
+	});
+var _user$project$Components_Settings$restoreMeasure = F2(
+	function (dict, measure) {
+		var _p9 = A2(_elm_lang$core$Dict$get, measure.attribute, dict);
+		if (_p9.ctor === 'Just') {
+			return _elm_lang$core$Native_Utils.update(
+				measure,
+				{weight: _p9._0});
+		} else {
+			return measure;
+		}
+	});
+var _user$project$Components_Settings$restoreMeasures = F2(
+	function (settings, measures) {
+		var savedMeasures = _elm_lang$core$Dict$fromList(settings.measures);
+		return A2(
+			_elm_lang$core$List$map,
+			_user$project$Components_Settings$restoreMeasure(savedMeasures),
+			measures);
+	});
+var _user$project$Components_Settings$Settings = F2(
+	function (a, b) {
+		return {measures: a, excluders: b};
+	});
+var _user$project$Components_Settings$buildSettings = F2(
+	function (appMeasures, appExcluders) {
+		var excluders = A2(
+			_elm_lang$core$List$map,
+			function (_p10) {
+				var _p11 = _p10;
+				return {
+					ctor: '_Tuple2',
+					_0: _p11._0,
+					_1: _elm_lang$core$Dict$toList(_p11._1)
+				};
+			},
+			appExcluders);
+		var measures = A2(
+			_elm_lang$core$List$map,
+			function (m) {
+				return {ctor: '_Tuple2', _0: m.attribute, _1: m.weight};
+			},
+			appMeasures);
+		return A2(_user$project$Components_Settings$Settings, measures, excluders);
 	});
 
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$Main$initialProducts = {
-	ctor: '::',
-	_0: _user$project$Components_Product$Model('Rockshox')('001')('Reverb 125mm / 30.9mm')('30.9')('125 mm')('cable')(450)(2)(500)(true),
-	_1: {
-		ctor: '::',
-		_0: _user$project$Components_Product$Model('Fox')('101')('Dropper 150mm / 30.9mm')('30.9')('150 mm')('hydraulic')(475)(5)(520)(true),
-		_1: {ctor: '[]'}
-	}
-};
+var _user$project$Main$initialProducts = {ctor: '[]'};
 var _user$project$Main$initialModel = function () {
 	var excluders = _user$project$Components_Excluder$initialExcluders(_user$project$Main$initialProducts);
 	return {
 		productList: _user$project$Main$initialProducts,
 		measureList: _user$project$Components_Measure$initialMeasures,
 		excluderList: excluders,
-		results: A3(_user$project$Components_Results$getResults, excluders, _user$project$Components_Measure$initialMeasures, _user$project$Main$initialProducts)
+		results: A3(_user$project$Components_Results$getResults, excluders, _user$project$Components_Measure$initialMeasures, _user$project$Main$initialProducts),
+		settings: A2(
+			_user$project$Components_Settings$Settings,
+			{ctor: '[]'},
+			{ctor: '[]'})
 	};
 }();
-var _user$project$Main$AppModel = F4(
-	function (a, b, c, d) {
-		return {productList: a, measureList: b, excluderList: c, results: d};
+var _user$project$Main$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
+	'setStorage',
+	function (v) {
+		return {
+			measures: _elm_lang$core$Native_List.toArray(v.measures).map(
+				function (v) {
+					return [v._0, v._1];
+				}),
+			excluders: _elm_lang$core$Native_List.toArray(v.excluders).map(
+				function (v) {
+					return [
+						v._0,
+						_elm_lang$core$Native_List.toArray(v._1).map(
+						function (v) {
+							return [v._0, v._1];
+						})
+					];
+				})
+		};
+	});
+var _user$project$Main$AppModel = F5(
+	function (a, b, c, d, e) {
+		return {productList: a, measureList: b, excluderList: c, results: d, settings: e};
 	});
 var _user$project$Main$ExcluderMsg = function (a) {
 	return {ctor: 'ExcluderMsg', _0: a};
@@ -14065,10 +14190,27 @@ var _user$project$Main$ChartMsg = function (a) {
 var _user$project$Main$ProductMsg = function (a) {
 	return {ctor: 'ProductMsg', _0: a};
 };
-var _user$project$Main$init = {
-	ctor: '_Tuple2',
-	_0: _user$project$Main$initialModel,
-	_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, _user$project$Components_Product$fetchProducts)
+var _user$project$Main$init = function (settings) {
+	var model = _user$project$Main$initialModel;
+	var startModel = function () {
+		var _p0 = settings;
+		if (_p0.ctor === 'Just') {
+			var _p1 = _p0._0;
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					measureList: A2(_user$project$Components_Settings$restoreMeasures, _p1, model.measureList),
+					settings: _p1
+				});
+		} else {
+			return model;
+		}
+	}();
+	return {
+		ctor: '_Tuple2',
+		_0: startModel,
+		_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, _user$project$Components_Product$fetchProducts)
+	};
 };
 var _user$project$Main$productListView = function (products) {
 	return A2(
@@ -14214,48 +14356,71 @@ var _user$project$Main$view = function (model) {
 };
 var _user$project$Main$update = F2(
 	function (message, model) {
-		var _p0 = message;
-		switch (_p0.ctor) {
+		var _p2 = message;
+		switch (_p2.ctor) {
 			case 'MeasureMsg':
-				var _p1 = A2(_user$project$Components_Measure$update, _p0._0, model.measureList);
-				var updatedMeasureList = _p1._0;
-				var measureCmd = _p1._1;
+				var _p3 = A2(_user$project$Components_Measure$update, _p2._0, model.measureList);
+				var updatedMeasureList = _p3._0;
+				var measureCmd = _p3._1;
 				var updatedResults = A3(_user$project$Components_Results$getResults, model.excluderList, updatedMeasureList, model.productList);
+				var settings = A2(_user$project$Components_Settings$buildSettings, updatedMeasureList, model.excluderList);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{measureList: updatedMeasureList, results: updatedResults}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureMsg, measureCmd)
+						{measureList: updatedMeasureList, results: updatedResults, settings: settings}),
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: _user$project$Main$setStorage(settings),
+							_1: {
+								ctor: '::',
+								_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MeasureMsg, measureCmd),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
 			case 'ProductMsg':
-				var _p4 = _p0._0;
-				var _p2 = A2(_user$project$Components_Product$update, _p4, model.productList);
-				var updatedProducts = _p2._0;
-				var productCmd = _p2._1;
+				var _p6 = _p2._0;
+				var _p4 = A2(_user$project$Components_Product$update, _p6, model.productList);
+				var updatedProducts = _p4._0;
+				var productCmd = _p4._1;
 				var updatedExcluders = function () {
-					var _p3 = _p4;
-					switch (_p3.ctor) {
+					var _p5 = _p6;
+					switch (_p5.ctor) {
 						case 'Fetch':
 							return model.excluderList;
 						case 'Filter':
 							return model.excluderList;
 						default:
-							return _user$project$Components_Excluder$initialExcluders(updatedProducts);
+							return A2(
+								_user$project$Components_Settings$restoreExcluders,
+								model.settings,
+								_user$project$Components_Excluder$initialExcluders(updatedProducts));
 					}
 				}();
+				var settings = A2(_user$project$Components_Settings$buildSettings, model.measureList, updatedExcluders);
 				var updatedResults = A3(_user$project$Components_Results$getResults, updatedExcluders, model.measureList, updatedProducts);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{productList: updatedProducts, results: updatedResults, excluderList: updatedExcluders}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, productCmd)
+						{productList: updatedProducts, results: updatedResults, excluderList: updatedExcluders, settings: settings}),
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: _user$project$Main$setStorage(settings),
+							_1: {
+								ctor: '::',
+								_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, productCmd),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
 			case 'ChartMsg':
-				var _p5 = A2(_user$project$Components_ChartView$update, _p0._0, model.results);
-				var updatedChartModel = _p5._0;
-				var chartCmd = _p5._1;
+				var _p7 = A2(_user$project$Components_ChartView$update, _p2._0, model.results);
+				var updatedChartModel = _p7._0;
+				var chartCmd = _p7._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -14264,21 +14429,103 @@ var _user$project$Main$update = F2(
 					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ChartMsg, chartCmd)
 				};
 			default:
-				var _p6 = A2(_user$project$Components_Excluder$update, _p0._0, model.excluderList);
-				var updatedExcluders = _p6._0;
-				var excluderCmd = _p6._1;
+				var _p8 = A2(_user$project$Components_Excluder$update, _p2._0, model.excluderList);
+				var updatedExcluders = _p8._0;
+				var excluderCmd = _p8._1;
 				var updatedResults = A3(_user$project$Components_Results$getResults, updatedExcluders, model.measureList, model.productList);
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{excluderList: updatedExcluders, results: updatedResults});
+				var settings = A2(_user$project$Components_Settings$buildSettings, newModel.measureList, newModel.excluderList);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{excluderList: updatedExcluders, results: updatedResults}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ExcluderMsg, excluderCmd)
+						newModel,
+						{settings: settings}),
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: _user$project$Main$setStorage(settings),
+							_1: {
+								ctor: '::',
+								_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ExcluderMsg, excluderCmd),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
 		}
 	});
-var _user$project$Main$main = _elm_lang$html$Html$program(
-	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
+var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
+	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})(
+	_elm_lang$core$Json_Decode$oneOf(
+		{
+			ctor: '::',
+			_0: _elm_lang$core$Json_Decode$null(_elm_lang$core$Maybe$Nothing),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$core$Json_Decode$map,
+					_elm_lang$core$Maybe$Just,
+					A2(
+						_elm_lang$core$Json_Decode$andThen,
+						function (excluders) {
+							return A2(
+								_elm_lang$core$Json_Decode$andThen,
+								function (measures) {
+									return _elm_lang$core$Json_Decode$succeed(
+										{excluders: excluders, measures: measures});
+								},
+								A2(
+									_elm_lang$core$Json_Decode$field,
+									'measures',
+									_elm_lang$core$Json_Decode$list(
+										A2(
+											_elm_lang$core$Json_Decode$andThen,
+											function (x0) {
+												return A2(
+													_elm_lang$core$Json_Decode$andThen,
+													function (x1) {
+														return _elm_lang$core$Json_Decode$succeed(
+															{ctor: '_Tuple2', _0: x0, _1: x1});
+													},
+													A2(_elm_lang$core$Json_Decode$index, 1, _elm_lang$core$Json_Decode$int));
+											},
+											A2(_elm_lang$core$Json_Decode$index, 0, _elm_lang$core$Json_Decode$string)))));
+						},
+						A2(
+							_elm_lang$core$Json_Decode$field,
+							'excluders',
+							_elm_lang$core$Json_Decode$list(
+								A2(
+									_elm_lang$core$Json_Decode$andThen,
+									function (x0) {
+										return A2(
+											_elm_lang$core$Json_Decode$andThen,
+											function (x1) {
+												return _elm_lang$core$Json_Decode$succeed(
+													{ctor: '_Tuple2', _0: x0, _1: x1});
+											},
+											A2(
+												_elm_lang$core$Json_Decode$index,
+												1,
+												_elm_lang$core$Json_Decode$list(
+													A2(
+														_elm_lang$core$Json_Decode$andThen,
+														function (x0) {
+															return A2(
+																_elm_lang$core$Json_Decode$andThen,
+																function (x1) {
+																	return _elm_lang$core$Json_Decode$succeed(
+																		{ctor: '_Tuple2', _0: x0, _1: x1});
+																},
+																A2(_elm_lang$core$Json_Decode$index, 1, _elm_lang$core$Json_Decode$bool));
+														},
+														A2(_elm_lang$core$Json_Decode$index, 0, _elm_lang$core$Json_Decode$string)))));
+									},
+									A2(_elm_lang$core$Json_Decode$index, 0, _elm_lang$core$Json_Decode$string)))))),
+				_1: {ctor: '[]'}
+			}
+		}));
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

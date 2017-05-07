@@ -1,6 +1,6 @@
-module Main exposing (..)
+port module Main exposing (..)
 
-import Html exposing (Html, program, div)
+import Html exposing (Html, programWithFlags, div)
 import Html.Attributes as H exposing (class, id)
 
 import Components.Measure as Measure
@@ -8,8 +8,10 @@ import Components.Product as Product
 import Components.ChartView as ChartView
 import Components.Results as Results
 import Components.Excluder as Excluder
+import Components.Settings as Settings
 
 import Debug exposing ( log )
+
 
 
 -- MODEL
@@ -19,7 +21,9 @@ type alias AppModel =
   , measureList : List Measure.Model
   , excluderList : List Excluder.Model
   , results : ChartView.Model
+  , settings : Settings.Settings
   }
+
 
 initialModel : AppModel
 initialModel =
@@ -31,18 +35,28 @@ initialModel =
     , measureList = Measure.initialMeasures
     , excluderList = excluders
     , results = Results.getResults excluders Measure.initialMeasures initialProducts
+    , settings = Settings.Settings [] []
     }
 
-init : ( AppModel, Cmd Msg )
-init = 
-  ( initialModel, Cmd.map ProductMsg Product.fetchProducts )
+init : Maybe Settings.Settings -> ( AppModel, Cmd Msg )
+init settings =
+  let
+    model = initialModel
+    startModel = case settings of
+      Just settings ->
+        { model | measureList = ( Settings.restoreMeasures settings model.measureList ) 
+        , settings = settings
+        }
+
+      Nothing ->
+        model 
+
+  in
+    ( startModel, Cmd.map ProductMsg Product.fetchProducts )
 
 
 initialProducts : List Product.Model
-initialProducts = 
-  [ Product.Model "Rockshox" "001" "Reverb 125mm / 30.9mm" "30.9" "125 mm" "cable" 450 2 500 True
-  , Product.Model "Fox" "101" "Dropper 150mm / 30.9mm" "30.9" "150 mm" "hydraulic" 475 5 520 True
-  ]
+initialProducts =  []
 
 
 -- VIEW
@@ -95,18 +109,22 @@ update message model =
   case message of
     MeasureMsg subMsg ->
       let 
-        ( updatedMeasureList, measureCmd ) =
-            Measure.update subMsg model.measureList
+        (updatedMeasureList, measureCmd ) =
+          Measure.update subMsg model.measureList
   
         updatedResults =
-            Results.getResults model.excluderList updatedMeasureList model.productList
+          Results.getResults model.excluderList updatedMeasureList model.productList
+
+        settings = 
+          Settings.buildSettings updatedMeasureList model.excluderList
 
       in
         ( { model | 
               measureList = updatedMeasureList
             , results = updatedResults
+            , settings = settings
           }
-          , Cmd.map MeasureMsg measureCmd
+          , Cmd.batch [ setStorage settings, (Cmd.map MeasureMsg measureCmd) ]
         )
     
 
@@ -118,17 +136,23 @@ update message model =
         updatedExcluders = case subMsg of 
           Product.Fetch ->  model.excluderList
           Product.Filter partNo -> model.excluderList
-          _ -> (Excluder.initialExcluders updatedProducts)
+          Product.Freshproducts result -> 
+            updatedProducts
+            |> Excluder.initialExcluders
+            |> Settings.restoreExcluders model.settings
 
         updatedResults = (Results.getResults updatedExcluders model.measureList updatedProducts)
-      
+        
+        settings = Settings.buildSettings model.measureList updatedExcluders
       in
         ( { model | 
               productList = updatedProducts
             , results = updatedResults
             , excluderList = updatedExcluders
+            , settings = settings
           }
-          , Cmd.map ProductMsg productCmd )
+          , Cmd.batch [ setStorage settings, (Cmd.map ProductMsg productCmd ) ]
+        )
 
     ChartMsg subMsg ->
       let ( updatedChartModel, chartCmd ) = 
@@ -145,12 +169,17 @@ update message model =
         updatedResults =
             Results.getResults updatedExcluders model.measureList model.productList  
 
-      in
-        ( { model | 
+        newModel = { model | 
               excluderList = updatedExcluders
             , results = updatedResults
           }
-          , Cmd.map ExcluderMsg excluderCmd
+
+        settings =
+          Settings.buildSettings newModel.measureList newModel.excluderList
+
+      in
+        ( { newModel | settings = settings }
+          , Cmd.batch [ setStorage settings, (Cmd.map ExcluderMsg excluderCmd) ]
         )
 
 --SUBSCRIPTIONS
@@ -162,11 +191,13 @@ subscriptions model =
 
 
 -- APP
-main : Program Never AppModel Msg
+main : Program (Maybe Settings.Settings) AppModel Msg
 main =
-  program
+  programWithFlags
     { init = init
     , view = view
     , update = update
     , subscriptions = subscriptions  
     }
+
+port setStorage : Settings.Settings -> Cmd msg

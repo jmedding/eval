@@ -1,11 +1,15 @@
 module Tests exposing (..)
 
 import Test exposing (..)
+import Dict exposing (Dict)
 import Expect
 import Fuzz exposing (list, int, tuple, string)
 import String
 import Json.Decode as Decode
 import Components.Product as Product
+import Components.Excluder as Excluder
+import Components.Settings as Settings
+import Components.Measure as Measure
 
 import Debug exposing ( log )
 
@@ -34,7 +38,12 @@ all =
                 \s1 s2 ->
                     s1 ++ s2 |> String.length |> Expect.equal (String.length s1 + String.length s2)
             ]
+        , product
+        , settings
         ]
+
+
+
 
 product : Test
 product =
@@ -49,27 +58,75 @@ product =
                     Expect.equal 3 (List.length products)
         ]
 
-
 jsonProductString : String
 jsonProductString = 
   """
 {"droppers":
-    [{"weight":425.0,"updated_at":"2017-03-10T05:05:59.345223","reliability":6.0,"price":450.4,"partNo":"abc123","manufacturer":"Fox","length":"150","inserted_at":"2017-03-10T05:05:59.329144","diameter":"30.9","description":"Gravity"}
-    ,{"weight":500.0,"updated_at":"2017-03-15T05:03:50.877758","reliability":7.0,"price":459.0,"partNo":"ksufe838","manufacturer":"Rockshox","length":"200","inserted_at":"2017-03-15T05:03:27.876840","diameter":"30.9","description":"Reverb"}
-    ,{"weight":505.0,"updated_at":"2017-03-15T05:04:47.682686","reliability":7.0,"price":487.0,"partNo":"298ds98","manufacturer":"Rockshox","length":"175","inserted_at":"2017-03-15T05:04:47.682680","diameter":"34.1","description":"Reverb"}
+    [{ "brand":"9point8", "partNo":"0000-0703", "model":"Fall Line", "diameter":"30.9", "length":"75", "actuator":"cable", "price":399, "reliability":5, "weight":498, "include":"True" }
+    ,{ "brand":"9point8", "partNo":"0000-0608", "model":"Fall Line", "diameter":"30.9", "length":"125", "actuator":"cable", "price":399, "reliability":5, "weight":566, "include":"True" }
+    ,{ "brand":"9point8", "partNo":"0000-0697", "model":"Fall Line", "diameter":"31.6", "length":"100", "actuator":"cable", "price":399, "reliability":5, "weight":516, "include":"True" }
     ]
 }
   """ 
 
 -- TODOS
 --   Fix label position in chart
---   Sort droppers by score for the chart (pareto)
 --   Add tooltip to chart bars
 --   Remember filter settings in refresh
 --   Add reset for filter features
---   Default is to show only one diameter and length
 
 -- DONE
+--   Default is to show only one diameter and length
+--   Sort droppers by score for the chart (pareto)
 --   Filters should not reset when instance is selected/deselected
 --   Add actuator as a filter
 --   Add instance weight as a measure
+
+settings : Test
+settings = 
+    let
+        testExcluderSettingList = [("a", True), ("b", True)]
+        excluderSettingList = [("test", testExcluderSettingList)]
+        measureSettingList = [("a", 3), ("b", 7)]
+        
+        testSettings = Settings.Settings measureSettingList excluderSettingList
+        excluder = ("test", Dict.fromList [("a", False), ("b", True), ("c", False)], (\p -> "attr"))
+        nullExcluder = ("null", Dict.fromList [], (\p -> "attr"))
+        measure1 = Measure.Model "A" "a" 5 (\a b c -> 5.0)
+        measure2 = Measure.Model "B" "b" 5 (\a b c -> 5.0)
+     
+        -- For Testing Update functions
+        settings = Dict.fromList [ ("test", Dict.fromList testExcluderSettingList )]
+        (_, setDict, _) = Settings.restoreExcluder settings excluder
+
+        -- For testing 'apply' function
+        (newMeasures, newExcluders) = Settings.apply testSettings [measure1, measure2] [excluder]
+    in
+        describe "test Settings module"
+            [describe "restore functions"
+                [test "restoreExcluder function takes saved value" <|
+                    \() -> Expect.equal (Just True) (Dict.get "a" setDict)
+                ,test "restoreExcluder function keeps new value" <|
+                    \() -> Expect.equal (Just False) (Dict.get "c" setDict)
+                ]
+            , describe "restore functions"
+                [test "restore measures" <|
+                    \() -> 
+                        let
+                            measures = Settings.restoreMeasures testSettings [measure1, measure2]
+                            newWeight = case List.head measures of 
+                                Just m -> m.weight
+                                Nothing -> -1
+                        in
+                            Expect.equal 3 newWeight
+                ,test "restore excluders" <|
+                    \() -> 
+                        let
+                            excluders = Settings.restoreExcluders testSettings [excluder]
+                            (_, dict, _) = case List.head excluders of
+                                Just ex -> ex
+                                Nothing -> nullExcluder
+                        in
+                            Expect.equal (Just True) (Dict.get "a" dict)
+                ]
+            ]
