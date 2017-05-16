@@ -6,6 +6,7 @@ import Html.Attributes as H exposing (class, id)
 import Components.Measure as Measure
 import Components.Product as Product
 import Components.ChartView as ChartView
+import Components.MyChartView as MyChartView
 import Components.Results as Results
 import Components.Excluder as Excluder
 import Components.Settings as Settings
@@ -20,7 +21,7 @@ type alias AppModel =
   { productList : List Product.Model
   , measureList : List Measure.Model
   , excluderList : List Excluder.Model
-  , results : ChartView.Model
+  , results : MyChartView.Model
   , settings : Settings.Settings
   }
 
@@ -66,7 +67,7 @@ view model =
   div [ class "elm-app" ] 
   [ div [ class "row" ]
     [ div [class "col-lg-12", id "chart" ] 
-      [ Html.map ChartMsg ( ChartView.view model.results ) ]
+      [ Html.map MyChartMsg ( MyChartView.view model.results ) ]
     ]
   , div [ class "row" ] 
     [ div [ class "col-lg-5", id "measures" ]
@@ -98,7 +99,7 @@ excluderListView excluders =
 type Msg =
   MeasureMsg Measure.Msg 
   | ProductMsg Product.Msg
-  | ChartMsg ChartView.Msg
+  | MyChartMsg MyChartView.Msg
   | ExcluderMsg Excluder.Msg
 
 
@@ -154,12 +155,12 @@ update message model =
           , Cmd.batch [ setStorage settings, (Cmd.map ProductMsg productCmd ) ]
         )
 
-    ChartMsg subMsg ->
+    MyChartMsg subMsg ->
       let ( updatedChartModel, chartCmd ) = 
-            ChartView.update subMsg model.results
+            MyChartView.update subMsg model.results
 
       in
-        ( {model | results = updatedChartModel }, Cmd.map ChartMsg chartCmd )
+        ( {model | results = updatedChartModel }, Cmd.map MyChartMsg chartCmd )
 
     ExcluderMsg subMsg ->
       let 

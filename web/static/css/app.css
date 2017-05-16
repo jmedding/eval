@@ -12,3 +12,9 @@ div.measure > span.weight {
 .excluderLabel {
 	font-weight: bold;
 }
+
+.chart-bar {
+	background-color: #66b5ff; /* blue; */
+	height: 100%;
+	min-height: 15px;
+}

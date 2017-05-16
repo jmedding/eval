@@ -13975,6 +13975,133 @@ var _user$project$Components_Measure$view = function (model) {
 		});
 };
 
+var _user$project$Components_MyChartView$itemRow = F2(
+	function (maxVal, _p0) {
+		var _p1 = _p0;
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('row'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('chart-item-desc col-sm-2'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(_p1._1),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('col-sm-10'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('chart-bar'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {
+													ctor: '_Tuple2',
+													_0: 'width',
+													_1: A2(
+														_elm_lang$core$Basics_ops['++'],
+														_elm_lang$core$Basics$toString((_p1._0 / maxVal) * 100),
+														'%')
+												},
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Components_MyChartView$itemRows = function (models) {
+	var maxVal = function () {
+		var _p4 = _elm_lang$core$List$maximum(
+			A2(
+				_elm_lang$core$List$map,
+				function (_p2) {
+					var _p3 = _p2;
+					return _p3._0;
+				},
+				models));
+		if (_p4.ctor === 'Just') {
+			return _p4._0;
+		} else {
+			return 1000;
+		}
+	}();
+	var rowFor = _user$project$Components_MyChartView$itemRow(maxVal);
+	return A2(_elm_lang$core$List$map, rowFor, models);
+};
+var _user$project$Components_MyChartView$titleRow = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('row'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$h3,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Dropper Post Rankings'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Components_MyChartView$view = function (items) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$id('eval-chart'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('row'),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Components_MyChartView$titleRow,
+			_1: _user$project$Components_MyChartView$itemRows(items)
+		});
+};
+var _user$project$Components_MyChartView$update = F2(
+	function (msg, model) {
+		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+	});
+var _user$project$Components_MyChartView$Dummy = {ctor: 'Dummy'};
+
 var _user$project$Components_Results$excludeProducts = F2(
 	function (excluders, products) {
 		var checkExcluder = F2(
@@ -14004,7 +14131,10 @@ var _user$project$Components_Results$excludeProducts = F2(
 	});
 var _user$project$Components_Results$applyMeasureFuncs = F2(
 	function (measureFuncs, product) {
-		var brand = product.brand;
+		var description = A2(
+			_elm_lang$core$Basics_ops['++'],
+			product.brand,
+			A2(_elm_lang$core$Basics_ops['++'], ' ', product.model));
 		var score = A3(
 			_elm_lang$core$List$foldr,
 			F2(
@@ -14013,7 +14143,7 @@ var _user$project$Components_Results$applyMeasureFuncs = F2(
 				}),
 			0,
 			measureFuncs);
-		return {ctor: '_Tuple2', _0: score, _1: brand};
+		return {ctor: '_Tuple2', _0: score, _1: description};
 	});
 var _user$project$Components_Results$primeFunction = F2(
 	function (products, measure) {
@@ -14184,8 +14314,8 @@ var _user$project$Main$excluderListView = function (excluders) {
 		},
 		excluders);
 };
-var _user$project$Main$ChartMsg = function (a) {
-	return {ctor: 'ChartMsg', _0: a};
+var _user$project$Main$MyChartMsg = function (a) {
+	return {ctor: 'MyChartMsg', _0: a};
 };
 var _user$project$Main$ProductMsg = function (a) {
 	return {ctor: 'ProductMsg', _0: a};
@@ -14271,8 +14401,8 @@ var _user$project$Main$view = function (model) {
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$map,
-								_user$project$Main$ChartMsg,
-								_user$project$Components_ChartView$view(model.results)),
+								_user$project$Main$MyChartMsg,
+								_user$project$Components_MyChartView$view(model.results)),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
@@ -14417,8 +14547,8 @@ var _user$project$Main$update = F2(
 							}
 						})
 				};
-			case 'ChartMsg':
-				var _p7 = A2(_user$project$Components_ChartView$update, _p2._0, model.results);
+			case 'MyChartMsg':
+				var _p7 = A2(_user$project$Components_MyChartView$update, _p2._0, model.results);
 				var updatedChartModel = _p7._0;
 				var chartCmd = _p7._1;
 				return {
@@ -14426,7 +14556,7 @@ var _user$project$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{results: updatedChartModel}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ChartMsg, chartCmd)
+					_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$MyChartMsg, chartCmd)
 				};
 			default:
 				var _p8 = A2(_user$project$Components_Excluder$update, _p2._0, model.excluderList);
