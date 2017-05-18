@@ -3,12 +3,12 @@ module Components.Results exposing ( .. )
 import Dict
 import Components.Measure as Measure
 import Components.Product as Product
-import Components.ChartView as ChartView
+import Components.MyChartView as MyChartView
 import Components.Excluder as Excluder
 
 import Debug exposing ( log )
 
-getResults : List Excluder.Model -> List Measure.Model -> List Product.Model -> ChartView.Model
+getResults : List Excluder.Model -> List Measure.Model -> List Product.Model -> MyChartView.Model
 getResults excluders measures products =
   let 
     selectedProducts = List.filter (\product -> product.include) products

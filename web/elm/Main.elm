@@ -5,7 +5,6 @@ import Html.Attributes as H exposing (class, id)
 
 import Components.Measure as Measure
 import Components.Product as Product
-import Components.ChartView as ChartView
 import Components.MyChartView as MyChartView
 import Components.Results as Results
 import Components.Excluder as Excluder

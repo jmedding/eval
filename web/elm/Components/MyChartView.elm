@@ -28,8 +28,8 @@ update msg model =
 view: Model -> Html Msg
 view items = 
   div [id "eval-chart"
-      , class "row eval-chart"
-      ] ( titleRow :: itemRows items )
+      , class "col-sm-12 eval-chart"
+      ] ( titleRow :: itemRows items ) -- '::' joins two lists
   
 
 titleRow: Html Msg
@@ -40,10 +40,7 @@ titleRow =
 itemRows: Model -> List (Html Msg)
 itemRows models =
   let
-    maxVal = case models |> List.map (\(v,_)-> v) |> List.maximum of
-      Just max -> max
-      Nothing -> 1000
-    rowFor = itemRow maxVal
+    rowFor = models |> getMaxValFromListOfResults |> itemRow  -- partial application
 
   in
     List.map rowFor models
@@ -58,3 +55,9 @@ itemRow  maxVal (val, desc) =
           ] []
     ]
   ]
+
+getMaxValFromListOfResults: Model -> Float
+getMaxValFromListOfResults models =
+  case models |> List.map (\(v,_)-> v) |> List.maximum of
+    Just max -> max
+    Nothing -> 1000.0
