@@ -11,8 +11,7 @@ import Debug exposing ( log )
 getResults : List Excluder.Model -> List Measure.Model -> List Product.Model -> MyChartView.Model
 getResults excluders measures products =
   let 
-    selectedProducts = List.filter (\product -> product.include) products
-    filteredProducts = excludeProducts excluders selectedProducts
+    filteredProducts = excludeProducts excluders products
     -- log = Debug.log "filteredProducts" filteredProducts
     primedFunction = primeFunction products
     measureFuncs = List.map primedFunction measures 

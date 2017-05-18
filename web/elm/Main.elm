@@ -66,18 +66,15 @@ view model =
   div [ class "elm-app" ] 
   [ Html.map MyChartMsg ( MyChartView.view model.results )
   , div [ class "row" ] 
-    [ div [ class "col-lg-5", id "measures" ]
+    [ div [ class "col-sm-5", id "measures" ]
       [ div [ class "row" ] ( measureListView model.measureList )
-      , div [ class "row" ] ( excluderListView model.excluderList )
       ] 
-    , div [ class "col-lg-2" ] []
-    , div [ class "col-lg-5", id "products"] (productListView model.productList)
+    , div [ class "col-sm-2" ] []
+    , div [ class "col-sm-5", id "products"] 
+      [ div [ class "row" ] (excluderListView model.excluderList)
+      ]
     ] 
   ]
-
-productListView : List Product.Model -> List (Html Msg)
-productListView products = 
-  List.map(\ product -> Html.map ProductMsg (Product.view product)) products 
 
 
 measureListView : List Measure.Model -> List (Html Msg)
@@ -132,7 +129,6 @@ update message model =
 
         updatedExcluders = case subMsg of 
           Product.Fetch ->  model.excluderList
-          Product.Filter partNo -> model.excluderList
           Product.Freshproducts result -> 
             updatedProducts
             |> Excluder.initialExcluders

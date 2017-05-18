@@ -23,7 +23,6 @@ type alias Model =
   , price : Float
   , reliability : Float
   , weight : Int
-  , include : Bool
   }
 
 fetchProducts : Cmd Msg
@@ -51,7 +50,6 @@ decodeProduct =
     |> required "price" float
     |> required "reliability" float
     |> required "weight" int
-    |> hardcoded True
 
 
 -- MESSAGES
@@ -59,8 +57,7 @@ decodeProduct =
 
 
 type Msg =
-  Filter PartNo
-  | Fetch
+  Fetch
   | Freshproducts (Result Http.Error (List Model))
 
 
@@ -70,25 +67,21 @@ view : Model -> Html Msg
 view model = 
   div 
     [ class "row" ]
-    [ input [ 
-              type_ "checkbox"
-            , checked  model.include
-            , onClick ( Filter model.partNo ) 
-            ] []
-    , text ( model.brand ++ " " ++ model.model  ++ " " ++ model.length ++ "mm/" ++ model.diameter)
+    [ text ( description model )
     ]
 
+description : Model -> String
+description model =
+  model.brand ++ " " 
+  ++ model.model  ++ " " 
+  ++ model.length ++ "mm/" 
+  ++ model.diameter
 
 -- UPDATE
 
 update : Msg -> List Model-> (List Model, Cmd Msg)
 update msg products =
   case msg of 
-    Filter partNo -> 
-      ( toggle_include products partNo
-      , Cmd.none
-      )
-
     Fetch -> ( products, fetchProducts )
 
     Freshproducts (Ok newProducts) -> 
@@ -97,14 +90,3 @@ update msg products =
     Freshproducts ( Err _ ) ->
       log "error" ( products, Cmd.none )
 
-
-toggle_include : List Model -> PartNo -> List Model
-toggle_include products partNo =
-  let
-    updateProduct product =
-      if product.partNo == partNo then
-        { product | include = not product.include }
-      else
-        product
-  in 
-    List.map updateProduct products

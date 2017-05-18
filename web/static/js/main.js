@@ -9113,76 +9113,80 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _user$project$Components_Product$toggle_include = F2(
-	function (products, partNo) {
-		var updateProduct = function (product) {
-			return _elm_lang$core$Native_Utils.eq(product.partNo, partNo) ? _elm_lang$core$Native_Utils.update(
-				product,
-				{include: !product.include}) : product;
-		};
-		return A2(_elm_lang$core$List$map, updateProduct, products);
-	});
-var _user$project$Components_Product$Model = function (a) {
-	return function (b) {
-		return function (c) {
-			return function (d) {
-				return function (e) {
-					return function (f) {
-						return function (g) {
-							return function (h) {
-								return function (i) {
-									return function (j) {
-										return {brand: a, partNo: b, model: c, diameter: d, length: e, actuator: f, price: g, reliability: h, weight: i, include: j};
-									};
-								};
-							};
-						};
-					};
-				};
-			};
-		};
-	};
+var _user$project$Components_Product$description = function (model) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		model.brand,
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			' ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				model.model,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					' ',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						model.length,
+						A2(_elm_lang$core$Basics_ops['++'], 'mm/', model.diameter))))));
 };
-var _user$project$Components_Product$decodeProduct = A2(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded,
-	true,
+var _user$project$Components_Product$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('row'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Components_Product$description(model)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Components_Product$Model = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {brand: a, partNo: b, model: c, diameter: d, length: e, actuator: f, price: g, reliability: h, weight: i};
+	});
+var _user$project$Components_Product$decodeProduct = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'weight',
+	_elm_lang$core$Json_Decode$int,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'weight',
-		_elm_lang$core$Json_Decode$int,
+		'reliability',
+		_elm_lang$core$Json_Decode$float,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'reliability',
+			'price',
 			_elm_lang$core$Json_Decode$float,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'price',
-				_elm_lang$core$Json_Decode$float,
+				'actuator',
+				_elm_lang$core$Json_Decode$string,
 				A3(
 					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-					'actuator',
+					'length',
 					_elm_lang$core$Json_Decode$string,
 					A3(
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-						'length',
+						'diameter',
 						_elm_lang$core$Json_Decode$string,
 						A3(
 							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-							'diameter',
+							'model',
 							_elm_lang$core$Json_Decode$string,
 							A3(
 								_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-								'model',
+								'partNo',
 								_elm_lang$core$Json_Decode$string,
 								A3(
 									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-									'partNo',
+									'brand',
 									_elm_lang$core$Json_Decode$string,
-									A3(
-										_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-										'brand',
-										_elm_lang$core$Json_Decode$string,
-										_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Components_Product$Model)))))))))));
+									_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Components_Product$Model))))))))));
 var _user$project$Components_Product$decodeProductList = A2(
 	_elm_lang$core$Json_Decode$field,
 	'droppers',
@@ -9198,83 +9202,23 @@ var _user$project$Components_Product$fetchProducts = function () {
 var _user$project$Components_Product$update = F2(
 	function (msg, products) {
 		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Filter':
-				return {
-					ctor: '_Tuple2',
-					_0: A2(_user$project$Components_Product$toggle_include, products, _p0._0),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Fetch':
-				return {ctor: '_Tuple2', _0: products, _1: _user$project$Components_Product$fetchProducts};
-			default:
-				if (_p0._0.ctor === 'Ok') {
-					return A2(
-						_elm_lang$core$Debug$log,
-						'New Products',
-						{ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none});
-				} else {
-					return A2(
-						_elm_lang$core$Debug$log,
-						'error',
-						{ctor: '_Tuple2', _0: products, _1: _elm_lang$core$Platform_Cmd$none});
-				}
+		if (_p0.ctor === 'Fetch') {
+			return {ctor: '_Tuple2', _0: products, _1: _user$project$Components_Product$fetchProducts};
+		} else {
+			if (_p0._0.ctor === 'Ok') {
+				return A2(
+					_elm_lang$core$Debug$log,
+					'New Products',
+					{ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none});
+			} else {
+				return A2(
+					_elm_lang$core$Debug$log,
+					'error',
+					{ctor: '_Tuple2', _0: products, _1: _elm_lang$core$Platform_Cmd$none});
+			}
 		}
 	});
 var _user$project$Components_Product$Fetch = {ctor: 'Fetch'};
-var _user$project$Components_Product$Filter = function (a) {
-	return {ctor: 'Filter', _0: a};
-};
-var _user$project$Components_Product$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('row'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$input,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$checked(model.include),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Components_Product$Filter(model.partNo)),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						model.brand,
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							' ',
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								model.model,
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									' ',
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										model.length,
-										A2(_elm_lang$core$Basics_ops['++'], 'mm/', model.diameter))))))),
-				_1: {ctor: '[]'}
-			}
-		});
-};
 
 var _user$project$Components_Excluder$updateExcluders = F4(
 	function (excluders, labelToUpdate, key, val) {
@@ -9407,7 +9351,7 @@ var _user$project$Components_Excluder$checkbox = F3(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('col-lg-4'),
+				_0: _elm_lang$html$Html_Attributes$class('col-sm-4'),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -9909,13 +9853,7 @@ var _user$project$Components_Results$getResults = F3(
 	function (excluders, measures, products) {
 		var primedFunction = _user$project$Components_Results$primeFunction(products);
 		var measureFuncs = A2(_elm_lang$core$List$map, primedFunction, measures);
-		var selectedProducts = A2(
-			_elm_lang$core$List$filter,
-			function (product) {
-				return product.include;
-			},
-			products);
-		var filteredProducts = A2(_user$project$Components_Results$excludeProducts, excluders, selectedProducts);
+		var filteredProducts = A2(_user$project$Components_Results$excludeProducts, excluders, products);
 		return A2(
 			_elm_lang$core$List$sortBy,
 			function (_p3) {
@@ -10098,17 +10036,6 @@ var _user$project$Main$init = function (settings) {
 		_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$ProductMsg, _user$project$Components_Product$fetchProducts)
 	};
 };
-var _user$project$Main$productListView = function (products) {
-	return A2(
-		_elm_lang$core$List$map,
-		function (product) {
-			return A2(
-				_elm_lang$html$Html$map,
-				_user$project$Main$ProductMsg,
-				_user$project$Components_Product$view(product));
-		},
-		products);
-};
 var _user$project$Main$MeasureMsg = function (a) {
 	return {ctor: 'MeasureMsg', _0: a};
 };
@@ -10152,7 +10079,7 @@ var _user$project$Main$view = function (model) {
 							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('col-lg-5'),
+								_0: _elm_lang$html$Html_Attributes$class('col-sm-5'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$id('measures'),
@@ -10169,18 +10096,7 @@ var _user$project$Main$view = function (model) {
 										_1: {ctor: '[]'}
 									},
 									_user$project$Main$measureListView(model.measureList)),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('row'),
-											_1: {ctor: '[]'}
-										},
-										_user$project$Main$excluderListView(model.excluderList)),
-									_1: {ctor: '[]'}
-								}
+								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
@@ -10188,7 +10104,7 @@ var _user$project$Main$view = function (model) {
 								_elm_lang$html$Html$div,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('col-lg-2'),
+									_0: _elm_lang$html$Html_Attributes$class('col-sm-2'),
 									_1: {ctor: '[]'}
 								},
 								{ctor: '[]'}),
@@ -10198,14 +10114,25 @@ var _user$project$Main$view = function (model) {
 									_elm_lang$html$Html$div,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('col-lg-5'),
+										_0: _elm_lang$html$Html_Attributes$class('col-sm-5'),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Attributes$id('products'),
 											_1: {ctor: '[]'}
 										}
 									},
-									_user$project$Main$productListView(model.productList)),
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('row'),
+												_1: {ctor: '[]'}
+											},
+											_user$project$Main$excluderListView(model.excluderList)),
+										_1: {ctor: '[]'}
+									}),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -10247,16 +10174,13 @@ var _user$project$Main$update = F2(
 				var productCmd = _p4._1;
 				var updatedExcluders = function () {
 					var _p5 = _p6;
-					switch (_p5.ctor) {
-						case 'Fetch':
-							return model.excluderList;
-						case 'Filter':
-							return model.excluderList;
-						default:
-							return A2(
-								_user$project$Components_Settings$restoreExcluders,
-								model.settings,
-								_user$project$Components_Excluder$initialExcluders(updatedProducts));
+					if (_p5.ctor === 'Fetch') {
+						return model.excluderList;
+					} else {
+						return A2(
+							_user$project$Components_Settings$restoreExcluders,
+							model.settings,
+							_user$project$Components_Excluder$initialExcluders(updatedProducts));
 					}
 				}();
 				var settings = A2(_user$project$Components_Settings$buildSettings, model.measureList, updatedExcluders);

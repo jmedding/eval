@@ -78,7 +78,7 @@ padNum val =
 checkbox : String -> String  -> Bool -> Html Msg
 checkbox label key val =
 
-    div [ class "col-lg-4" ]
+    div [ class "col-sm-4" ]
         [ input
           [ H.type_ "checkbox"
           , H.checked val
