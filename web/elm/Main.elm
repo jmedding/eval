@@ -65,10 +65,7 @@ initialProducts =  []
 view : AppModel -> Html Msg
 view model =
   div [ class "elm-app" ] 
-  [ div [ class "row" ]
-    [ div [class "col-lg-12", id "chart" ] 
-      [ Html.map MyChartMsg ( MyChartView.view model.results ) ]
-    ]
+  [ Html.map MyChartMsg ( MyChartView.view model.results )
   , div [ class "row" ] 
     [ div [ class "col-lg-5", id "measures" ]
       [ div [ class "row" ] ( measureListView model.measureList )

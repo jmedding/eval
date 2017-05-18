@@ -28,7 +28,7 @@ update msg model =
 view: Model -> Html Msg
 view items = 
   div [id "eval-chart"
-      , class "row"
+      , class "row eval-chart"
       ] ( titleRow :: itemRows items )
   
 
@@ -51,8 +51,8 @@ itemRows models =
 itemRow: Float -> (Float, String) -> Html Msg
 itemRow  maxVal (val, desc) =
   div [ class "row"]
-  [ div [class "chart-item-desc col-sm-2" ] [ text desc ]
-  , div [ class "col-sm-10" ] 
+  [ div [class "chart-item-desc col-sm-5" ] [ text desc ]
+  , div [ class "col-sm-7" ] 
     [ div [ class "chart-bar"
           , style [ ("width", toString (val / maxVal * 100) ++ "%")]
           ] []

@@ -35,7 +35,10 @@ applyMeasureFuncs : List (Product.Model -> Float) -> Product.Model -> ( Float, S
 applyMeasureFuncs measureFuncs product =
   let
     score = List.foldr (\func score-> score  + func product) 0 measureFuncs
-    description = product.brand ++ " " ++ product.model
+    description = product.brand ++ " " 
+      ++ product.model ++ " ("
+      ++ product.diameter ++ "/"
+      ++ product.length ++ ")"
 
   in
     ( score, description )

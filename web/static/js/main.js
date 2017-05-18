@@ -13991,7 +13991,7 @@ var _user$project$Components_MyChartView$itemRow = F2(
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('chart-item-desc col-sm-2'),
+						_0: _elm_lang$html$Html_Attributes$class('chart-item-desc col-sm-5'),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -14005,7 +14005,7 @@ var _user$project$Components_MyChartView$itemRow = F2(
 						_elm_lang$html$Html$div,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('col-sm-10'),
+							_0: _elm_lang$html$Html_Attributes$class('col-sm-7'),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -14086,7 +14086,7 @@ var _user$project$Components_MyChartView$view = function (items) {
 			_0: _elm_lang$html$Html_Attributes$id('eval-chart'),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('row'),
+				_0: _elm_lang$html$Html_Attributes$class('row eval-chart'),
 				_1: {ctor: '[]'}
 			}
 		},
@@ -14134,7 +14134,22 @@ var _user$project$Components_Results$applyMeasureFuncs = F2(
 		var description = A2(
 			_elm_lang$core$Basics_ops['++'],
 			product.brand,
-			A2(_elm_lang$core$Basics_ops['++'], ' ', product.model));
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				' ',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					product.model,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						' (',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							product.diameter,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'/',
+								A2(_elm_lang$core$Basics_ops['++'], product.length, ')')))))));
 		var score = A3(
 			_elm_lang$core$List$foldr,
 			F2(
@@ -14378,35 +14393,9 @@ var _user$project$Main$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('row'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('col-lg-12'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$id('chart'),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$map,
-								_user$project$Main$MyChartMsg,
-								_user$project$Components_MyChartView$view(model.results)),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}),
+				_elm_lang$html$Html$map,
+				_user$project$Main$MyChartMsg,
+				_user$project$Components_MyChartView$view(model.results)),
 			_1: {
 				ctor: '::',
 				_0: A2(
