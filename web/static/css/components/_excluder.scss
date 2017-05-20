@@ -1,3 +1,10 @@
-.excluderLabel {
-	font-weight: bold;
+.excluder-group {
+	margin-bottom: $margin-medium;
+
+	> .label {
+		font-weight: $font-weight-bold;
+		color: black;
+		text-align: left;
+		font-size: $font-size-large;
+	}
 }

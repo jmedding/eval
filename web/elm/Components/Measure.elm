@@ -64,21 +64,18 @@ type Msg
 view : Model -> Html Msg
 view model =
   div [ class "row" ]
-  [ div [ class "row" ]
-    [ span [class "col-sm-10"] [ text model.label ],
-      span [class "col-sm-2"] [ text ( toString model.weight ) ]
-    ]
-  , div [class "row" ]
-    [ div [class "col-sm-12"] 
-      [ input 
-        [ H.type_ "range"
-        , H.min "0"
-        , H.max "10" 
-        , H.step "1"
-        , H.value <| toString model.weight
-        , onInput (Changed model.attribute)
-        ][]
-      ]
+  [ span [class "col-sm-10"] [ text model.label ]
+  , span [class "col-sm-2"] [ text ( toString model.weight ) ]
+    
+  , div [class "col-sm-12"] 
+    [ input 
+      [ H.type_ "range"
+      , H.min "0"
+      , H.max "10" 
+      , H.step "1"
+      , H.value <| toString model.weight
+      , onInput (Changed model.attribute)
+      ][]
     ]
   ]
 

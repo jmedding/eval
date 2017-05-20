@@ -29,7 +29,7 @@ view: Model -> Html Msg
 view items = 
   div [id "eval-chart"
       , class "col-sm-12 eval-chart"
-      ] ( titleRow :: itemRows items ) -- '::' joins two lists
+      ] ( titleRow :: itemRows items ) -- '::' adds element to front of list
   
 
 titleRow: Html Msg

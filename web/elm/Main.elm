@@ -69,10 +69,8 @@ view model =
     [ div [ class "col-sm-5", id "measures" ]
       [ div [ class "row" ] ( measureListView model.measureList )
       ] 
-    , div [ class "col-sm-2" ] []
-    , div [ class "col-sm-5", id "products"] 
-      [ div [ class "row" ] (excluderListView model.excluderList)
-      ]
+    , div [ class "col-sm-7", id "excluders"] 
+      (excluderListView model.excluderList)
     ] 
   ]
 

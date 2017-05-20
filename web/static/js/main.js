@@ -9404,48 +9404,29 @@ var _user$project$Components_Excluder$view = function (_p17) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('row'),
+			_0: _elm_lang$html$Html_Attributes$class('row excluder-group'),
 			_1: {ctor: '[]'}
 		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('row excluderLabel'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(_p19),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+		A2(
+			_elm_lang$core$List$append,
+			{
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('row'),
+						_0: _elm_lang$html$Html_Attributes$class('col-sm-12 label'),
 						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('row'),
-								_1: {ctor: '[]'}
-							},
-							_user$project$Components_Excluder$checkboxesForKeys(
-								{ctor: '_Tuple3', _0: _p19, _1: _p18._1, _2: _p18._2})),
+						_0: _elm_lang$html$Html$text(_p19),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
-			}
-		});
+			},
+			_user$project$Components_Excluder$checkboxesForKeys(
+				{ctor: '_Tuple3', _0: _p19, _1: _p18._1, _2: _p18._2})));
 };
 
 var _user$project$Components_Measure$updateWeight = F3(
@@ -9562,99 +9543,77 @@ var _user$project$Components_Measure$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$div,
+				_elm_lang$html$Html$span,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('row'),
+					_0: _elm_lang$html$Html_Attributes$class('col-sm-10'),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$span,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('col-sm-10'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(model.label),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$span,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('col-sm-2'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_elm_lang$core$Basics$toString(model.weight)),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
+					_0: _elm_lang$html$Html$text(model.label),
+					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
+					_elm_lang$html$Html$span,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('row'),
+						_0: _elm_lang$html$Html_Attributes$class('col-sm-2'),
 						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('col-sm-12'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$input,
-									{
+						_0: _elm_lang$html$Html$text(
+							_elm_lang$core$Basics$toString(model.weight)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('col-sm-12'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('range'),
+									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$type_('range'),
+										_0: _elm_lang$html$Html_Attributes$min('0'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$min('0'),
+											_0: _elm_lang$html$Html_Attributes$max('10'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$max('10'),
+												_0: _elm_lang$html$Html_Attributes$step('1'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$step('1'),
+													_0: _elm_lang$html$Html_Attributes$value(
+														_elm_lang$core$Basics$toString(model.weight)),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(
-															_elm_lang$core$Basics$toString(model.weight)),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onInput(
-																_user$project$Components_Measure$Changed(model.attribute)),
-															_1: {ctor: '[]'}
-														}
+														_0: _elm_lang$html$Html_Events$onInput(
+															_user$project$Components_Measure$Changed(model.attribute)),
+														_1: {ctor: '[]'}
 													}
 												}
 											}
 										}
-									},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
@@ -10104,37 +10063,15 @@ var _user$project$Main$view = function (model) {
 								_elm_lang$html$Html$div,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('col-sm-2'),
-									_1: {ctor: '[]'}
-								},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{
+									_0: _elm_lang$html$Html_Attributes$class('col-sm-7'),
+									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('col-sm-5'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$id('products'),
-											_1: {ctor: '[]'}
-										}
-									},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('row'),
-												_1: {ctor: '[]'}
-											},
-											_user$project$Main$excluderListView(model.excluderList)),
+										_0: _elm_lang$html$Html_Attributes$id('excluders'),
 										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
+									}
+								},
+								_user$project$Main$excluderListView(model.excluderList)),
+							_1: {ctor: '[]'}
 						}
 					}),
 				_1: {ctor: '[]'}

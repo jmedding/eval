@@ -51,13 +51,12 @@ type Msg =
 
 view : Model -> Html Msg
 view (label, dict, func) = 
-  div [ class "row" ] 
-  [ div [ class "row excluderLabel" ] [ text label ]
-  , div [ class "row" ]
-    [div [ class "row" ] (checkboxesForKeys (label, dict, func))
-    ]
-  ]
-
+  div [ class "row excluder-group" ] (
+  List.append
+    [ div [ class "col-sm-12 label" ] [ text label ]] 
+    (checkboxesForKeys (label, dict, func))
+  )
+  
 checkboxesForKeys : Model -> List (Html Msg)
 checkboxesForKeys (label, dict, _ ) =
   let 
